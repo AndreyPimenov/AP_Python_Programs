@@ -2,5 +2,11 @@
    + прошел микрокурc из 6 лекций на YouTube (OOP Python Tutorial)
 
 2. урок по теме исключения:
-assert - используется при тестировании, например:
+assert - используется при тестировании, + два видео Нетологии 
 
+3. Урок по работе с файлами:
+# Полезные ссылки: http://www.5byte.ru/8/0006.php о файлах и файловых структурах 
+# Работа с файлами: https://python-scripts.com/work-with-files-python 
+# Файлы. Работа с файлами: https://pythonworld.ru/tipy-dannyx-v-python/fajly-rabota-s-fajlami.html 
+# Модуль json: https://pythonworld.ru/moduli/modul-json.html 
+# Сравнение модулей json и YAML: https://habr.com/post/238603/ 
