@@ -30,9 +30,9 @@ cook_book = {
     ]
   }
 '''
-# Замечу, что требуемый формат файла это словарь, состоящий из списков блюд, причем каждое блюдо это словарь с ключами: название, кол-во, ед. измр-ия 
+# Замечу, что требуемый формат файла это словарь, значениями котрого явля-ся списки ингридиентов, а ключами названия блюд. Причем каждый ингридиент это словарь с ключами: название, кол-во, ед. измр-ия и соответвующими значениями.  
 
-# задача 1:
+# задача 1: Формирования словаря, решается одной функцией
 # создать словарь
 # открыть файл 
 # # считывать по строчке
@@ -67,20 +67,22 @@ def Create_Dict():
   for key, value in CookBook_dict.items():
     print(key,': \n', value, '\n')
 
-
-# Функция добавления нового блюда в файл:
+# Решил написать функцию по добавлению в файл новых блюд, с предварительной проверкой записи.
 # ввести информацию о блюде, кол-ве ингридиентов, самих ингридиентах 
 # все ли верно?
 # # записать в кулинарную книгу? Y / N
-# # записать
+# # записать в файл: Cook_Book.txt
 
+# Функция добавления нового блюда в файл:
 def add_new_dish():
   # сбор информации:
   print ('введите название нового блюда')
   new_dish_name = input()
-  print ('кол-во ингридиентов')
+  
   # создание списка в котором будут хран-ся словари ингириентов блюда:
   new_dish_list =[] 
+  
+  print ('кол-во ингридиентов')
   try:
     ingrs_num = int(input())
   except ValueError:
@@ -94,37 +96,35 @@ def add_new_dish():
       ingr = list(input().split(' '))
       ingridient_dict = {'ingridient_name': ingr[0], 'quantity': ingr[1], 'measure': ingr[2]}
       #print(ingridient_dict)
-      new_dish_list.append(ingridient_dict)
+      new_dish_list.append(ingridient_dict) #NB далее обращаясь к элементам этого списка, мы работаем со словарем (каждый элемент списка - словарь)
   except IndexError:
     print ('got IndexError')
   except ValueError:
     print ('got Value error')
   except TypeError:
     print ('got TypeError')
-  
   finally:
     print('записать рецепт в файл? - Y/N')
     if input() == 'Y':
       print ('Да')
       # тут дозаписываем в уже существующий текстовый файл:
-      f = open('test_write.txt', 'a')
+      f = open('CookBook.txt', 'a')
       try:
-        f.write(new_dish_name + '\n') #запишем название блюда
+        f.write('\n' + new_dish_name + '\n') #запишем название блюда
         f.write(str(ingrs_num)+ '\n') #запишем кол-во ингридиентов в блюде
         for i in range(ingrs_num):
-          ex = str(new_dish_list[i].get(0)) # +, ' | ', + new_dish_list[i].get(1) + , ' | ', + new_dish_list[i].get(2))
-          #string = str(dish_list[i])
-          #f.write(string)
-          print(new_dish_list[i])
+          f.write(new_dish_list[i].get('ingridient_name') + ' | ' + new_dish_list[i].get('quantity') + ' | ' + new_dish_list[i].get('measure') + '\n' )
+          
       except IOError:
         print("An IOError has occurred!")
       except IndexError:
         print("got Index Error")
       finally:
-        f.write()
+        #f.write('\n') #добавить отступ строки после нового блюда
+        print('Новый рецепт записан')
     else:
       print ('Не стали перезаписывать файл')
-print('Рецепт записан')
+
 
 
 
@@ -158,10 +158,35 @@ def create_shop_list():
     .lower().split(', ')
   shop_list = get_shop_list_by_dishes(dishes, person_count)
   print_shop_list(shop_list)
-
-create_shop_list()
-
 '''
+
+def get_shop_list_by_dishes(dishes, person_count):
+  shop_list = {}
+  for dish in dishes:
+    for ingridient in cook_book[dish]:
+      new_shop_list_item = dict(ingridient)
+
+      new_shop_list_item['quantity'] *= person_count
+      if new_shop_list_item['ingridient_name'] not in shop_list:
+        shop_list[new_shop_list_item['ingridient_name']] = new_shop_list_item
+      else:
+        shop_list[new_shop_list_item['ingridient_name']]['quantity'] +=
+          new_shop_list_item['quantity']
+  return shop_list
+
+def print_shop_list(shop_list):
+  for shop_list_item in shop_list.values():
+    print('{} {} {}'.format(shop_list_item['ingridient_name'], shop_list_item['quantity'], 
+                            shop_list_item['measure']))
+
+def create_shop_list():
+  person_count = int(input('Введите количество человек: '))
+  dishes = input('Введите блюда в расчете на одного человека (через запятую): ') \
+    .lower().split(', ')
+  shop_list = get_shop_list_by_dishes(dishes, person_count)
+  print_shop_list(shop_list)
+
+
 
 # Основная работа:
 print ('В программе кулинарная книга вы можете выбрать любое из следующих доступных действий:\n nd - (new dish), добавить новое блюдо, \n bv - (book view), посмотреть рецепты из книги, \n fr - (find receipt) поиск интересующего вас рецепта и его распечатка. \n wd - (welcome dinner) - список покупок для формирования стола и угощения людей \n q - (quit)кроме того вы можете завершить работу программы:  \n Приятной работы')
@@ -179,7 +204,7 @@ while(1):
   elif user_command == 'fr':
     pass
   elif user_command == 'wd':
-    pass
+    create_shop_list()
 
 #Create_Dict()
 #add_new_dish()
