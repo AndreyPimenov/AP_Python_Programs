@@ -16,6 +16,7 @@ assert - используется при тестировании, + два ви
 # Файлы. Работа с файлами: https://pythonworld.ru/tipy-dannyx-v-python/fajly-rabota-s-fajlami.html 
 # Модуль json: https://pythonworld.ru/moduli/modul-json.html 
 # Сравнение модулей json и YAML: https://habr.com/post/238603/ 
+# Полезно для ДЗ: http://qaru.site/questions/10700016/change-values-of-dictionary-to-be-a-list
 
 
 Декомпозиция:
