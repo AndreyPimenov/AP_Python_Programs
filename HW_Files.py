@@ -63,9 +63,13 @@ def Create_Dict():
         CookBook_dict[dish.strip()] = dish_list
       #print(dish_list)
   #print(CookBook_dict)
-  #форматирование вывода:
-  for key, value in CookBook_dict.items():
+  return CookBook_dict
+
+#Доп функция форматирование вывода:
+def Dictionary_Output(Dictionary):
+  for key, value in Dictionary.items(): #CookBook_dict.items():
     print(key,': \n', value, '\n')
+  
 
 # Решил написать функцию по добавлению в файл новых блюд, с предварительной проверкой записи.
 # ввести информацию о блюде, кол-ве ингридиентов, самих ингридиентах 
@@ -90,10 +94,10 @@ def add_new_dish():
   
   #построчная интерпретация ингридиентов нового блюда:
   try:
-    print ('укажите одной строкой через пробел:')
+    print ('укажите одной строкой через запятую:')
     for i in range(ingrs_num):
       print(i+1, '-й ингридиент, его кол-во, и измеряемая величина:') 
-      ingr = list(input().split(' '))
+      ingr = list(input().split(','))
       ingridient_dict = {'ingridient_name': ingr[0], 'quantity': ingr[1], 'measure': ingr[2]}
       #print(ingridient_dict)
       new_dish_list.append(ingridient_dict) #NB далее обращаясь к элементам этого списка, мы работаем со словарем (каждый элемент списка - словарь)
@@ -126,70 +130,64 @@ def add_new_dish():
       print ('Не стали перезаписывать файл')
 
 
-
-
-
-
 #Задача2
 #Нужно написать функцию, которая на вход принимает список блюд из cook_book и количество персон для кого мы будем готовить
 '''
-def get_shop_list_by_dishes(dishes, person_count):
-  shop_list = {}
-  for dish in dishes:
-    for ingridient in cook_book[dish]:
-      new_shop_list_item = dict(ingridient)
-
-      new_shop_list_item['quantity'] *= person_count
-      if new_shop_list_item['ingridient_name'] not in shop_list:
-        shop_list[new_shop_list_item['ingridient_name']] = new_shop_list_item
-      else:
-        shop_list[new_shop_list_item['ingridient_name']]['quantity'] +=
-          new_shop_list_item['quantity']
-  return shop_list
-
-def print_shop_list(shop_list):
-  for shop_list_item in shop_list.values():
-    print('{} {} {}'.format(shop_list_item['ingridient_name'], shop_list_item['quantity'], 
-                            shop_list_item['measure']))
-
-def create_shop_list():
-  person_count = int(input('Введите количество человек: '))
-  dishes = input('Введите блюда в расчете на одного человека (через запятую): ') \
-    .lower().split(', ')
-  shop_list = get_shop_list_by_dishes(dishes, person_count)
-  print_shop_list(shop_list)
+На выходе:
+{
+  'Картофель': {'measure': 'кг', 'quantity': 2},
+  'Молоко': {'measure': 'мл', 'quantity': 200},
+  'Помидор': {'measure': 'шт', 'quantity': 8},
+  'Сыр гауда': {'measure': 'г', 'quantity': 200},
+  'Яйцо': {'measure': 'шт', 'quantity': 4},
+  'Чеснок': {'measure': 'зубч', 'quantity': 6}
+}
 '''
 
-def get_shop_list_by_dishes(dishes, person_count):
-  shop_list = {}
-  for dish in dishes:
-    for ingridient in cook_book[dish]:
-      new_shop_list_item = dict(ingridient)
+# указать персон, выбрать блюда
+# # построчный поиск в словаре
+# формироавние списка покупок для ужина
 
-      new_shop_list_item['quantity'] *= person_count
-      if new_shop_list_item['ingridient_name'] not in shop_list:
-        shop_list[new_shop_list_item['ingridient_name']] = new_shop_list_item
-      else:
-        shop_list[new_shop_list_item['ingridient_name']]['quantity'] +=
-          new_shop_list_item['quantity']
-  return shop_list
+def welcome_dinner(Dictionary):
+  print ('На скольких человек будет ужин: ')
+  persons = int(input())
+  print ('Укажите черз запятую названия блюд, которые планируете включить в ужин (в расчете на 1 человека):')
+  dinner_dishes = list(input().split(', ' or ' '))
+  #print (dinner_dishes)
+  
+  #формирование словаря:
+  #dinner_shop = dict.fromkeys(dinner, {}) #ключи - блюда, а вот значения пока пустые словари
+  shop_dict = {} #Должен быть вида: 'ingridient_name' : the same {'measure': the same, 'quantity': x perosns  }
 
-def print_shop_list(shop_list):
-  for shop_list_item in shop_list.values():
-    print('{} {} {}'.format(shop_list_item['ingridient_name'], shop_list_item['quantity'], 
-                            shop_list_item['measure']))
+  #наполнение словарей значениями в зависимости от кол-ва персон на ужине
+  for i in range (len(dinner_dishes)):
+    #print(dinner_dishes[i])
+    for key in Dictionary.keys():
+      if dinner_dishes[i] == key:
+      # средство временной отладки:
+      #  print ('есть совпадение')
+      #else:
+      # print('есть проблемы')
+        dish_receipt = Dictionary.get(key)
+        #print (dish_receipt)
+        for j in range (len(dish_receipt)):
+          #print (dish_receipt[j])
+          #shop_dict[dish_receipt[j]['ingridient_name']] = {}
+          dish_receipt[j]['quantity']= int(dish_receipt[j]['quantity'])*persons
+          #print(dish_receipt[j])
+          if dish_receipt[j]['ingridient_name'] not in shop_dict:
+            shop_dict[dish_receipt[j]['ingridient_name']] = dish_receipt[j]
+            #print(shop_dict[dish_receipt[j]['ingridient_name']])
+            
+          else:
+            shop_dict[dish_receipt[j]['ingridient_name']]['quantity'] += dish_receipt[j]['quantity']
 
-def create_shop_list():
-  person_count = int(input('Введите количество человек: '))
-  dishes = input('Введите блюда в расчете на одного человека (через запятую): ') \
-    .lower().split(', ')
-  shop_list = get_shop_list_by_dishes(dishes, person_count)
-  print_shop_list(shop_list)
+  #распечатка 
+  return shop_dict
 
 
-
-# Основная работа:
-print ('В программе кулинарная книга вы можете выбрать любое из следующих доступных действий:\n nd - (new dish), добавить новое блюдо, \n bv - (book view), посмотреть рецепты из книги, \n fr - (find receipt) поиск интересующего вас рецепта и его распечатка. \n wd - (welcome dinner) - список покупок для формирования стола и угощения людей \n q - (quit)кроме того вы можете завершить работу программы:  \n Приятной работы')
+# Интерфейсная часть программы:
+print ('В программе кулинарная книга вы можете выбрать любое из следующих доступных действий:\n nd - (new dish), добавить новое блюдо, \n bv - (book view), посмотреть рецепты из книги, \n wd - (welcome dinner) - список покупок для формирования стола и угощения людей \n q - (quit) кроме того вы можете завершить работу программы:  \n Приятного аппетита =)')
 # тут я все-таки использую глобальную переменную user_command
 while(1):
   print('\n введите команду:')
@@ -200,11 +198,6 @@ while(1):
   elif user_command == 'nd':
     add_new_dish()
   elif user_command == 'bv':
-    Create_Dict()
-  elif user_command == 'fr':
-    pass
+    Dictionary_Output(Create_Dict())
   elif user_command == 'wd':
-    create_shop_list()
-
-#Create_Dict()
-#add_new_dish()
+    Dictionary_Output(welcome_dinner(Create_Dict()))
