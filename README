@@ -2,6 +2,7 @@
 1. Классы
 2. Исключения
 3. Работа с файлами
+4. Работа с папками, путями, и вызов других программ
 
 
 1. урок по теме классы онлайн университета Нетология
@@ -36,4 +37,17 @@ KOI8r - ранее была популярна для русификации
 CP1251 - Win использует по умолчанию
 Unicod - кодировка в которой каждому символу присвоен своей номер
 UTF8 - работает в Python3 по умолчанию (128Б для латиницы)
+
+4. Работа с папками, путями, и вызов других программ
+Читать: https://ru.wikipedia.org/wiki/Путь_к_файлу путь к файлу
+Официальная документация:
+Работа с очередями:
+https://docs.python.org/3/library/os.path.html
+http://john16blog.blogspot.com/2012/05/python-queue.html
+Параллельные процессы:
+https://docs.python.org/3/library/multiprocessing.html
+https://docs.python.org/3/library/subprocess.html
+
+
+https://ideafix.name/wp-content/uploads/2012/07/Python-11.pdf 
 
