@@ -19,7 +19,6 @@ assert - используется при тестировании, + два ви
 # Сравнение модулей json и YAML: https://habr.com/post/238603/ 
 # Полезно для ДЗ: http://qaru.site/questions/10700016/change-values-of-dictionary-to-be-a-list
 
-
 Декомпозиция:
 DRY - Don't Repet Yourself 
 Функция это язык декомпозиции - разделение целого на части 
@@ -48,9 +47,9 @@ http://john16blog.blogspot.com/2012/05/python-queue.html
 https://docs.python.org/3/library/multiprocessing.html
 https://docs.python.org/3/library/subprocess.html
 
-
 https://ideafix.name/wp-content/uploads/2012/07/Python-11.pdf 
 
 По работе с модулем os:
 https://pythonworld.ru/moduli/modul-os.html 
 https://pythonworld.ru/moduli/modul-os-path.html
+
