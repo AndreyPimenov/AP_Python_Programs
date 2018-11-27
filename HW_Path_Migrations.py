@@ -53,7 +53,7 @@ def match_searcher(input_str, sql_file):
     coinsidence = False
     with open(sql_file) as f:
         for line in f:
-            print(line)
+            #print(line)
             if input_str in line:
                 coinsidence = True
                 break
@@ -99,6 +99,14 @@ print(len(path_list), ' .sql фалов в папке изначально')
 # print(len(list_former(a, path_list)), 'столько файлов осталось')
 
 # Интерфейсная часть програамы:
-print('В поисковике файлов доступен выход при нажатии клавиши: "q" - quit')
-while (input() != q):
-print(' \n введите строку:')
+print('В поисковике файлов доступен выход при нажатии клавиши: "q" - quit' )
+
+while (1):
+    print(' \n введите строку:')
+    input_str = input()
+    if input_str != 'q':
+        print(list_former(input_str, path_list))
+        print(len(list_former(input_str, path_list)), 'столько файлов осталось')
+        path_list = list_former(input_str, path_list)
+    else:
+        break
