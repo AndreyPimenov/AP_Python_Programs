@@ -1,6 +1,7 @@
 # Задача 3 Запустить браузер
 # немного про модули ----------> https://pythonworld.ru/moduli/modul-os.html
 import os
+import subprocess
 
 # возвращает текущую директорию:
 current_directory = os.getcwd()
@@ -19,24 +20,19 @@ print (last_time_opened)
 last_time_changed = os.path.getmtime(current_directory)
 print (last_time_changed)
 
-# 1-й вариант открытия:
-# os.system(r'C:/"Users"/"a.pimenov"/"AppData"/"Local"/"Yandex"/"YandexBrowser"/Application"/browser.exe')
-# os.system(r'C:/"Program Files"/"internet explorer"/iexplore.exe')
 
+# 1-й вариант открытия:
 # вариант открытия браухера через запуск его exe файла по указанному пути:
 os.startfile(r'C:/Program Files/internet explorer/iexplore.exe')  # запуск Internet Explorer
 os.startfile(r'C:/Users/a.pimenov/AppData/Local/Yandex/YandexBrowser/Application/browser.exe')  # Yandex
 
-# Задача 1
 
+# Задача 2 запускать скрипт из любой точки
 
-# Задача 2
+__file__ = 'Problem_1.py'
+dir_path = os.path.dirname(os.path.realpath(__file__))
+print(dir_path, 'директория скрипта')
 
+goon = os.path.join(dir_path, 'Problem_1.py')
+os.startfile(goon)
 
-
-
-
-
-
-
-# Задача 4
