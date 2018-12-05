@@ -77,3 +77,44 @@ def topten_searcher(list):
 
     # отсортируем полученный список слов в алфавитном порядке:
     pprint(sorted(one_list))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Тектсовый интерфейс управления всей программой:
+print(
+    "Управление:\n 0 - выход,\n 1 - запуск .json файла,\n 2 - запуск .xml файла\n")
+
+while (True):
+    print("\n  Введите команду")
+    user_command = input()
+    if user_command == '0':
+        print("Работа программы завершена")
+        break
+
+    elif user_command == '1':
+        print('Работаем с .json файлом')
+        print("Введите название файла")
+        file_name = input()
+
+        print("Печать содержимого rss: ")
+        topten_searcher(digging_data(json_dic(file_name)))
+
+    elif user_command == '2':
+        print('Работаем с .xml файлом')
+        print('Работаем с .json файлом')
+        print("Введите название файла")
+        file_name = input()
+
+        pprint(json_dic(file_name))
