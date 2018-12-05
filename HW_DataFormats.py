@@ -56,39 +56,24 @@ def digging_data(dictionary):
             # print(len(a),'\n')
             mass_data.append(main_list[i].setdefault('description'))
     pprint(mass_data)
+    # важно что это список списков:
     return mass_data
 
 
-# ф3. Получен список:
-# Запустить цикл обхода по всем элеменатм списка и если элемент списка меньше 6 символов, то удалить
+# ф3. Получен список, в котором каждый элемент это список символов:
+# Запустить цикл по всем спискам списка и для каждого: если элемент списка меньше 6 символов, то удалить
 # распечатать на экране
+def topten_searcher(list):
+    # формирование единого списка в котором бужем искать топ 10 наиболее чатсо встречаемых слов
+    one_list = []
 
-# Тектсовый интерфейс управления всей программой:
-print(
-    "Управление:\n 0 - выход,\n 1 - запуск .json файла,\n 2 - запуск .xml файла\n")
+    # поиск по всем спискам:
+    for i in range(len(list)):
+        new_list = list[i].split(' ')
+        for word in new_list:
+            print(len(word))
+            if len(word) >= 6:
+                one_list.append(word)
 
-while (True):
-    print("\n  Введите команду")
-    user_command = input()
-    if user_command == '0':
-        print("Работа программы завершена")
-        break
-
-    elif user_command == '1':
-        print('Работаем с .json файлом')
-        print("Введите название файла")
-        file_name = input()
-
-        afr_data = json_dic(file_name)
-        # pprint(afr_data)
-
-        print("Печать содержимого rss: ")
-        digging_data(afr_data)
-
-    elif user_command == '2':
-        print('Работаем с .xml файлом')
-        print('Работаем с .json файлом')
-        print("Введите название файла")
-        file_name = input()
-
-        pprint(json_dic(file_name))
+    # отсортируем полученный список слов в алфавитном порядке:
+    pprint(sorted(one_list))
