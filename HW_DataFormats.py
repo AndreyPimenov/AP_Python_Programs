@@ -15,9 +15,7 @@
 # Ф3: во входящем списке находит 10 самых часто встрчающихся слов длиннее 6 символов и выводит их на экран
 
 # 2:
-# Фунция Ф4: чтение .xml файла, на входе файл, на выходе словарь
-# Далее идет основная Ф2, которая проходит по каждому ключу (в данном случае это id) и для каждого вызывает Ф3
-# Ф3: проходит по спискам и в кажлом списке находит 10 самых часто встрчающихся слов длиннее 6 символов
+# Фунция Ф4: чтение .xml файла, на входе файл, на выходе список,который подается на Ф3
 
 # -------------------------------------------------------------------------------------------------------
 
@@ -47,13 +45,8 @@ def digging_data(dictionary):
     for key in keys:
         # добираемся до сути:
         main_list = dictionary.setdefault(key).setdefault('channel').setdefault('items')
-        # pprint(main_list)
         pprint(len(main_list))
         for i in range(len(main_list)):
-            # a = main_list[i].setdefault('description')
-            # pprint(main_list[i].setdefault('description'))
-            # print(i)
-            # print(len(a),'\n')
             mass_data.append(main_list[i].setdefault('description'))
     pprint(mass_data)
     # важно что это список списков:
@@ -71,25 +64,32 @@ def topten_searcher(list):
     for i in range(len(list)):
         new_list = list[i].split(' ')
         for word in new_list:
-            print(len(word))
+            #print(len(word))
             if len(word) >= 6:
                 one_list.append(word)
 
-    # отсортируем полученный список слов в алфавитном порядке:
-    pprint(sorted(one_list))
+    from collections import Counter
+    print(dict(Counter(one_list).most_common(10)).keys())
 
-
-
-
-
-
-
-
-
-
-
-
-
+# Ф4 работа с xml:
+def xml_dic():
+    one_list=[]
+    import xml.etree.ElementTree as ET
+    tree = ET.parse('newsafr.xml')
+    print (tree)
+    titles = []
+    # корневой элемент xml
+    root = tree.getroot()
+    
+    xml_title = root.find("channel/title")
+    #print(type(xml_title))
+    #print(xml_title.text)
+    xml_items = root.findall("channel/item")
+    #print(len(xml_items))
+    for xmli in xml_items:
+        one_list.append(xmli.find("description").text)
+    #print(one_list)
+    return one_list
 
 
 # Тектсовый интерфейс управления всей программой:
@@ -108,13 +108,12 @@ while (True):
         print("Введите название файла")
         file_name = input()
 
-        print("Печать содержимого rss: ")
+        print("10 наиболее встречающихся слов:  ")
         topten_searcher(digging_data(json_dic(file_name)))
 
     elif user_command == '2':
         print('Работаем с .xml файлом')
-        print('Работаем с .json файлом')
-        print("Введите название файла")
-        file_name = input()
+        # print("Введите название файла")
+        # file_name = input()
 
-        pprint(json_dic(file_name))
+        topten_searcher(xml_dic())
