@@ -1,3 +1,7 @@
+# Написать программу, которая будет выводить топ 10 самых часто встречающихся в новостях слов
+# длиннее 6 символов для каждого файла.
+# В решении домашнего задания вам могут помочь: split(), sort или sorted.
+
 # Написать программу, к. выводит 10 самых часто встречающихся в новостях слов длиннее 6 символов для каждого файла.
 
 # Принцип работы программы:
@@ -7,8 +11,8 @@
 
 # 1:
 # Фунция Ф1: чтение .json файла, на входе файл, на выходе словарь
-# Далее идет основная Ф2, которая проходит по каждому ключу (в данном случае это id) и для каждого вызывает Ф3
-# Ф3: проходит по спискам и в кажлом списке находит 10 самых часто встрчающихся слов длиннее 6 символов
+# Далее идет основная Ф2, которая проходит по глубинному ключу 'description' и формирует новый список
+# Ф3: во входящем списке находит 10 самых часто встрчающихся слов длиннее 6 символов и выводит их на экран
 
 # 2:
 # Фунция Ф4: чтение .xml файла, на входе файл, на выходе словарь
@@ -23,37 +27,68 @@ from pprint import pprint
 
 
 # Ф1. на вход .json файл на выход словарь:
-
 def json_dic(file_name):
     with open(file_name + '.json', encoding='utf-8') as datafile:
         json_data = json.load(datafile)
     return json_data
-    # print(type(json_data))
-    # pprint(json_data)
 
+
+# ф2. по ключу 'rss' вызвать содержание исходного словаря, далее:
+# --> по ключу 'channel' содержание -->
+# --> по ключу 'items' содержание это список
+# цикл по всем элементам списка:
+# каждый элемент списка это словарь в котором по ключу 'description' смотреть содержание
+def digging_data(dictionary):
+    # будущий список для Ф3:
+    mass_data = []
+
+    # цикл в том случае если не один, а несколько информационных каналов
+    keys = dictionary.keys()
+    for key in keys:
+        # добираемся до сути:
+        main_list = dictionary.setdefault(key).setdefault('channel').setdefault('items')
+        # pprint(main_list)
+        pprint(len(main_list))
+        for i in range(len(main_list)):
+            # a = main_list[i].setdefault('description')
+            # pprint(main_list[i].setdefault('description'))
+            # print(i)
+            # print(len(a),'\n')
+            mass_data.append(main_list[i].setdefault('description'))
+    pprint(mass_data)
+    return mass_data
+
+
+# ф3. Получен список:
+# Запустить цикл обхода по всем элеменатм списка и если элемент списка меньше 6 символов, то удалить
+# распечатать на экране
 
 # Тектсовый интерфейс управления всей программой:
 print(
-    "Управление:\n 0 - выход из программы,\n 1 - запуск программы с .json файлом,\n 2 - запуск программы с .xml файлом\n")
+    "Управление:\n 0 - выход,\n 1 - запуск .json файла,\n 2 - запуск .xml файла\n")
 
 while (True):
     print("\n  Введите команду")
     user_command = input()
     if user_command == '0':
-        break
         print("Работа программы завершена")
+        break
+
     elif user_command == '1':
         print('Работаем с .json файлом')
         print("Введите название файла")
-        newsafr = input()
+        file_name = input()
 
-        pprint(json_dic(newsafr))
+        afr_data = json_dic(file_name)
+        # pprint(afr_data)
 
+        print("Печать содержимого rss: ")
+        digging_data(afr_data)
 
     elif user_command == '2':
         print('Работаем с .xml файлом')
+        print('Работаем с .json файлом')
+        print("Введите название файла")
+        file_name = input()
 
-
-
-
-
+        pprint(json_dic(file_name))
