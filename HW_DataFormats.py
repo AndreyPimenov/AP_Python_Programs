@@ -61,15 +61,17 @@ def topten_searcher(list):
     one_list = []
 
     # поиск по всем спискам:
-    for i in range(len(list)):
-        new_list = list[i].split(' ')
+    for item in list:
+        new_list = item.split(' ')
         for word in new_list:
-            #print(len(word))
+            
             if len(word) >= 6:
                 one_list.append(word)
 
     from collections import Counter
     print(dict(Counter(one_list).most_common(10)).keys())
+
+
 
 # Ф4 работа с xml:
 def xml_dic():
@@ -78,17 +80,19 @@ def xml_dic():
     tree = ET.parse('newsafr.xml')
     print (tree)
     titles = []
-    # корневой элемент xml
+    # что такое корневой элемент xml
     root = tree.getroot()
+    # теги и атрибуты
+    print(root.tag)
+    print(root.attrib)
     
     xml_title = root.find("channel/title")
-    #print(type(xml_title))
-    #print(xml_title.text)
+    print(type(xml_title))
+    print(xml_title.text)
     xml_items = root.findall("channel/item")
-    #print(len(xml_items))
+    print(len(xml_items))
     for xmli in xml_items:
         one_list.append(xmli.find("description").text)
-    #print(one_list)
     return one_list
 
 
@@ -113,7 +117,5 @@ while (True):
 
     elif user_command == '2':
         print('Работаем с .xml файлом')
-        # print("Введите название файла")
-        # file_name = input()
 
         topten_searcher(xml_dic())
