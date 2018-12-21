@@ -11,28 +11,30 @@
 # 3. закрываем файл
 
 
-
 import time
 import textwrap
 
 start = time.monotonic()
 print ('the time is: ', time.time())
 
-class ContextManager:
+class open_file:
     """
-    Самодельный менеджер контекста для запуска разных функций работы с файлом
+    Самодельный менеджер контекста для откртыия файлов
     """
 
     # obj = self.__enter__
 
-    def __init__(self, obj, timer_time):
-        self.obj = obj           # запускает объект
-        self.timer = timer_time  # инициализирует временную метку
+    def __init__(self, filename, mode):
+        self.f = open(filename, mode)
+
+#        self.obj = obj           # запускает объект
+#        self.timer = timer_time  # инициализирует временную метку
 
     def __enter__(self):
-        return self.obj          # привязка к активному объекту with-блока
+        return self.f             # привязка к активному объекту with-блока
 
-
+    def __exit__(self, *args):
+        self.f.close()
 
 
 
@@ -44,8 +46,6 @@ def triadfunction():
     # если элементы не вошли в триаду, то убрать их из рассмотрения.
     # 2. Вычислить сумму каждой триады
     # 3. Вывести на экран триады, в порядке возрастания их суммы
-    # 4. Записать результаты в файл
-    # 5. Особенность файла в том, что в его названии указана дата
     """
 
     # введем список
@@ -88,8 +88,8 @@ def triadfunction():
 triad_list = triadfunction()
 
 
-# Вариант работы работы без контекст менеджера
-# дописываем в файл:
+# Вариант работы без контекст менеджера
+'''
 f = open('LogFile.txt', 'a') # тут дописываем информацию в файл
 try:
     f.write(str(triad_list) + '\n')
@@ -102,11 +102,12 @@ except IndexError:
 
 finally:
     print ('триады сформированы, отсортированы и записаны')
+'''
 
-# В работе над проектом очень помогла эта ссылка:
-# https://www.internet-technologies.ru/articles/modul-time-taymery-vremeni.html
+# Вариант работы с контекст менеджером:
+with open_file('FileLog.txt', 'a') as f:
+    f.write(str(triad_list) + '\n')
 
-# get_clock_info()
 
 print ('the time is: ', time.time())
 end = time.monotonic()
@@ -114,3 +115,7 @@ end = time.monotonic()
 print ('start : {:>9.2f}'.format(start))
 print ('end   : {:>9.2f}'.format(end))
 print ('span  : {:>9.2f}'.format(end - start))
+
+# В работе над проектом очень помогла эта ссылка:
+# https://www.internet-technologies.ru/articles/modul-time-taymery-vremeni.html
+# https://www.coursera.org/lecture/diving-in-python/kontiekstnyie-mieniedzhiery-CXVes
