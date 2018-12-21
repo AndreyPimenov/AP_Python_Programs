@@ -13,19 +13,24 @@
 
 
 import time
+import textwrap
+
+start = time.monotonic()
+print ('the time is: ', time.time())
+
 class ContextManager:
     """
     Самодельный менеджер контекста для запуска разных функций работы с файлом
     """
 
-    #obj = self.__enter__
+    # obj = self.__enter__
 
     def __init__(self, obj, timer_time):
         self.obj = obj           # запускает объект
         self.timer = timer_time  # инициализирует временную метку
 
     def __enter__(self):
-        return self.obj # привязка к активному объекту with-блока
+        return self.obj          # привязка к активному объекту with-блока
 
 
 
@@ -78,3 +83,34 @@ def triadfunction():
     # задание 3.
     print(sorted(list_triad))
     return (list_triad)
+
+# получаем значение, которое хотим записать в файл:
+triad_list = triadfunction()
+
+
+# Вариант работы работы без контекст менеджера
+# дописываем в файл:
+f = open('LogFile.txt', 'a') # тут дописываем информацию в файл
+try:
+    f.write(str(triad_list) + '\n')
+
+except IOError:
+    print("An IOError has occured")
+
+except IndexError:
+    print("got Index error")
+
+finally:
+    print ('триады сформированы, отсортированы и записаны')
+
+# В работе над проектом очень помогла эта ссылка:
+# https://www.internet-technologies.ru/articles/modul-time-taymery-vremeni.html
+
+# get_clock_info()
+
+print ('the time is: ', time.time())
+end = time.monotonic()
+
+print ('start : {:>9.2f}'.format(start))
+print ('end   : {:>9.2f}'.format(end))
+print ('span  : {:>9.2f}'.format(end - start))
