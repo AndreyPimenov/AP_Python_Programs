@@ -1,0 +1,146 @@
+# To DO:
+# metadata в формате json
+# разделение в experimental data толкьо вертикальная черта
+
+import json
+import os
+print("Program for data transfer to the Skoltech IoT Lab FTP Server ")
+
+# Dictionary Forming
+python_dict_with_metadata = dict
+
+# Function Description Block:
+def Metadata_former():
+    ''' Metadata Preparation:
+    experimental_title = test_object + object_model + test_type
+    experimentaL_start_time ---> get from PC
+    delta_t ---> time lag between strings of experimental data
+    intake ---> write it in additional info
+    engine model ---> write it in additional info
+    operator_name ---> get from PC '''
+    # Test Object
+    print("Choose the Object, by entering right number:"
+          "1 - Battery, 2 - Engine, 3 - Servo, 4 - UAV, 0 - Other")
+    switcher_object = {
+        0: "Other",
+        1: "Battery",
+        2: "Engine",
+        3: "Servo",
+        4: "UAV",
+    }
+    test_object = switcher_object[int(input())]
+
+    # Object Model
+    print("Write the model of the object: ")
+    object_model = input()
+
+    # Test Type
+    print("Choose the Type of the Test, by entering right number:: 1 - Dynamic, 2 - Static, 0 - Other")
+    switcher_type = {
+        0: "Other",
+        1: "Dynamic",
+        2: "Static"
+    }
+    test_type = switcher_type[int(input())]
+
+    # Time Delta:
+    print("Choose the time step between measurements, in ms")
+    delta_t = float(input())
+
+    # Title Forming:
+    experiment_title = test_object + '_' + object_model + '_' + test_type
+
+    # Operator Name:
+    import getpass
+    operator_name = getpass.getuser()
+
+    # Datetime of the experiment:
+    import datetime
+    start_time = str(datetime.datetime.today())[0:19]
+    start_time = start_time.replace("-", ".")
+    start_time = start_time.replace(":", ".")
+
+    # Additional Information:
+    print("Write any additional information, for instance: information about intake or other important information")
+    test_label = input()
+
+    # Path for file writing:
+    path_base = r'D:/IoT_Server/Upload/IB_FTP'
+    path_way = path_base + '/' + test_object + '/' + test_type
+    os.makedirs(path_way + '/' + start_time)
+
+    # Fullfilment of the Python Dictionary:
+    python_dict_with_metadata = {"experimental_title": experiment_title, "experiment_start_time": start_time,
+        "additional information": test_label, "delta_t" : delta_t, "operator_name": operator_name}
+
+    # Metadata.txt file formation:
+    with open(path_way + '/' + start_time + '/' + 'metadata.txt', "w") as f:
+        f.write(experiment_title + '\n')
+        f.write(start_time + '\n')
+        f.write(test_label + '\n')
+        f.write('time between mesurements:' + str(delta_t) + 'ms' + '\n')
+        f.write(operator_name)
+
+    # Metadata.json file formation:
+    with open(path_way + '/' + start_time + '/' + 'metadata.json', "w") as f:
+        json.dump(python_dict_with_metadata, f)
+
+    return (path_way + '/' + start_time + '/')
+
+def Exp_Data_Transfer(path_direction):
+    ''' File transfer from one location to another with preparation for sending to FTP-server
+        1. Reading string by string with replacement: ' ' to ' | '
+        2. List forming and all these strings save in it
+        3. Forming new file
+        4. Save new file in right directory '''
+    new_list = []
+    with open(r'C:\Users\andrey.pimenov\Desktop\LAB\Data.txt') as f:
+        for line in f:
+            string_of_exp_data = f.readline()
+            new_list.append(string_of_exp_data.replace(' ', '|'))
+    print(new_list)
+    # print(len(new_list))
+    print(new_list[1])
+    with open(path_direction + 'Data.txt', 'w') as f:
+        f.writelines(new_list)
+
+def grabFile():
+    filename = 'metadata.txt'
+    localfile = open(filename, 'wb')
+    ftp.retrbinary('RETR ' + filename, localfile.write, 1024)
+    ftp.quit()
+    localfile.close()
+
+def placeFile(filename):
+    '''filename = 'Data.txt' or metadat.json'''
+    filename = 'new.txt'
+    ftp.storbinary('STOR ' +filename, open(filename, 'rb') )
+    ftp.quit()
+    
+# 0. Metadata File Forming
+path_direction = Metadata_former()
+
+# 1. Get File with experimental data
+Exp_Data_Transfer(path_direction)
+
+# 2. Server Connection
+
+# 3. Open right file
+
+# 4. Transfer data from this file to server
+
+# FTP Client
+from ftplib import FTP
+
+ib_ip = '10.30.16.181'
+ib_user = 'aeronet'
+ib_pass = 'net1324aero'
+
+# Connection to FTP-server:
+ftp = FTP()
+ftp.connect(ib_ip, 21)
+ftp.login(ib_user, ib_pass)
+ftp.set_pasv(False)
+ftp.cwd('/aeronet_data/Battery/Dynamic/2019.03.15 10.52.05')
+
+placeFile()
