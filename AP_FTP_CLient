@@ -1,9 +1,6 @@
-# To DO:
-# metadata в формате json
-# разделение в experimental data толкьо вертикальная черта
-
 import json
 import os
+from ftplib import FTP
 print("Program for data transfer to the Skoltech IoT Lab FTP Server ")
 
 # Dictionary Forming
@@ -104,14 +101,14 @@ def Exp_Data_Transfer(path_direction):
     with open(path_direction + 'Data.txt', 'w') as f:
         f.writelines(new_list)
 
-def grabFile():
+def grabFile(filename, filepath):
     filename = 'metadata.txt'
     localfile = open(filename, 'wb')
     ftp.retrbinary('RETR ' + filename, localfile.write, 1024)
     ftp.quit()
     localfile.close()
 
-def placeFile(filename):
+def placeFile(filename, filepath):
     '''filename = 'Data.txt' or metadat.json'''
     filename = 'new.txt'
     ftp.storbinary('STOR ' +filename, open(filename, 'rb') )
@@ -130,8 +127,6 @@ Exp_Data_Transfer(path_direction)
 # 4. Transfer data from this file to server
 
 # FTP Client
-from ftplib import FTP
-
 ib_ip = '10.30.16.181'
 ib_user = 'aeronet'
 ib_pass = 'net1324aero'
@@ -141,6 +136,12 @@ ftp = FTP()
 ftp.connect(ib_ip, 21)
 ftp.login(ib_user, ib_pass)
 ftp.set_pasv(False)
-ftp.cwd('/aeronet_data/Battery/Dynamic/2019.03.15 10.52.05')
 
-placeFile()
+# Work in Directories
+ftp.cwd('/aeronet_data')
+server_dir = r'/aeronet_data' + path_direction[27::]
+print(server_dir)
+ftp.mkd(server_dir)
+ftp.cwd(server_dir)
+
+placeFile('new.txt', server_dir)
