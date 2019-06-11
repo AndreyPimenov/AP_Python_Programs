@@ -63,7 +63,7 @@ def savetext(text, file_to):
             else:
                 break
 
-def text_translate(file_from, file_to, lang_in, lang_out):
+def text_translate():
     file_from = input('Укажите путь к файлу с текстом для перевода')
     file_to = input('Укажите путь к файлу для сохранения текста')
     lang_in = input('двумя строчными буквами укажите язык текста оригинала')
@@ -82,4 +82,4 @@ file_from, file_to, lang_in = str, str, str
 
 if __name__ == '__main__':
 
-    text_translate(file_from, file_to, lang_in, lang_out = 'ru')
+    text_translate()
