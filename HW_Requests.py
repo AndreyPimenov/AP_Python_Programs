@@ -1,3 +1,11 @@
+# Работа с API Yandex.Переводчик
+# -------------------------------------------------------------------------
+# Необходимо расширить функцию переводчика так, чтобы она принимала следующие параметры:
+# Путь к файлу с текстом;
+# Путь к файлу с результатом;
+# Язык с которого перевести;
+# Язык на который перевести (по-умолчанию русский)
+# -------------------------------------------------------------------------
 
 import os
 import requests
@@ -63,13 +71,9 @@ def savetext(text, file_to):
             else:
                 break
 
-def text_translate(file_from, file_to, lang_in, lang_out):
-    file_from = input('Укажите путь к файлу с текстом для перевода')
-    file_to = input('Укажите путь к файлу для сохранения текста')
-    lang_in = input('двумя строчными буквами укажите язык текста оригинала')
-    lang_out = input('двумя строчными буквами укажите язык текста перевода')
+def text_translate(file_from, file_to, lang_from, lang_out='ru'):
 
-    in_out_lang = lang_in + '-' + lang_out
+    in_out_lang = lang_from + '-' + lang_out
 
     if readfile(file_from, in_out_lang) == str():
         print ("Запустите программу снова")
@@ -78,8 +82,9 @@ def text_translate(file_from, file_to, lang_in, lang_out):
         savetext(text, in_out_lang)
 
 
-file_from, file_to, lang_in = str, str, str
-
 if __name__ == '__main__':
+    file_from = input('Укажите путь к файлу с текстом для перевода')
+    file_to = input('Укажите путь к файлу для сохранения текста')
+    lang_from = input('двумя строчными буквами укажите язык текста оригинала')
 
-    text_translate(file_from, file_to, lang_in, lang_out = 'ru')
+    text_translate(file_from, file_to, lang_from, lang_out = 'ru')
