@@ -112,8 +112,24 @@ if (year % 4 == 0) and (year % 100 != 0) or (year % 400 == 0):
 else:
     print('NO')
 
+# 5 
+a = int(input())
+b = int(input())
+c = int(input())
+if (a < b) and (a < c):
+    print (a)
+elif (b < c):
+    print (b)
+else:
+    print (c)
 
-
+# интересное решение:
+if b >= a <= c:
+    print(a)
+elif a >= b <= c:
+    print(b)
+else:
+    print(c)
 
 
 
