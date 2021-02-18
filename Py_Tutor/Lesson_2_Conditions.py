@@ -171,8 +171,56 @@ if ((x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2)) < 4: #r^2
 else:
     print ("NO")
 
+# 9 шахматы: ход слона
+# Шахматный слон ходит по диагонали. Даны две различные клетки шахматной доски, определите, может ли слон попасть с первой клетки на вторую одним ходом.
+x1 = int(input())
+y1 = int(input())
+x2 = int(input())
+y2 = int(input())
 
+# возьмем точку x1;y1 и проведем через нее две прямые по ходу слона
+# проверим подходит ли точка x2;y2 первой прямой и далее второй
 
+if ((x2 - x1)/((x1+1) - x1) == (y2 - y1)/((y1+1) - y1)) or ((x2 - x1)/((x1+1) - x1) == (y2 - y1)/((y1-1) - y1)):
+    print ("YES")
+else:
+    print("NO")
+    
+    
+# интересное решение:
+x1 = int(input())
+y1 = int(input())
+x2 = int(input())
+y2 = int(input())
+if abs(x1 - x2) == abs(y1 - y2):
+    print('YES')
+else:
+    print('NO')
+    
+# 10 шахматы: ход ферзя
+x1 = int(input())
+y1 = int(input())
+x2 = int(input())
+y2 = int(input())
+
+# сумма слона и ладьи:
+if (x1 == x2 or y1 == y2) or (abs(x1 - x2) == abs(y1 - y2)):
+    print("YES")
+else:
+    print("NO")
+    
+# 11 шахматы: ход коня
+x1 = int(input())
+y1 = int(input())
+x2 = int(input())
+y2 = int(input())
+
+if (abs(x1-x2) == 1 and abs(y1-y2) == 2)  or (abs(y1-y2)==1 and abs(x1-x2) == 2):
+    print("YES")
+else:
+    print("NO")
+    
+    
 
 
 
