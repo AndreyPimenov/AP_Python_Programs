@@ -5,41 +5,14 @@
 # Пример результата: 
 4 5 3 5 0 0 0 0
 
-numb_list = [int(x) for x in input().split()]
-print(numb_list)
+# -------------------------------------------
 
-for i in range(0, len(numb_list)):
-    if numb_list[i] == 0:
-        numb_list.append(0)
-        if numb_list[i+1] != 0:
-            numb_list[i] = numb_list[i+1]
-            numb_list.pop(i+1)
-        else:
-            numb_list.pop(i)
-            numb_list.pop(i)
-            numb_list.append(0)
-            
-print(str(numb_list))
-
-## 
 numb_list = [int(x) for x in input().split()]
 
+# Решение 1: Подход через внутренний цикл, но в этом случае весь список проходится больше 1-го раза:
 for i in range(0, len(numb_list)):
-    if numb_list[i] == 0:
-        
+    for j in range (0, numb_list.count(0)):
         numb_list.append(0)
-       
-        if numb_list[i+1] != 0:
-            numb_list[i] = numb_list[i+1]
-            numb_list.pop(i+1)
-        
-        else:
-            numb_list.pop(i)
-            numb_list.append(0)
-            numb_list.pop(i+1)
-            
+        numb_list.remove(0)
     print(numb_list[i], end = ' ')
     
-    
-    numb_list.remove(0)
-    numb_list.append(0)
