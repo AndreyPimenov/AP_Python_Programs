@@ -42,3 +42,52 @@ for i in range(0, len(numb_list)):
             
     print(numb_list[i], end = ' ')
     
+    
+    numb_list = [int(x) for x in input().split()]
+count = 0
+n = len(numb_list)
+k = numb_list.count(0)
+
+print (n, k)
+
+for i in range(0, n):
+    if numb_list[i] == 0:
+        count = count + 1 
+        numb_list.append(0)
+        if numb_list[i+1] != 0:
+            numb_list[i] = numb_list[i+1]
+            numb_list.pop(i+1)
+        else: # in case the sequence of zeros:
+            basis = i
+            while (numb_list[i] == 0) and ((count + basis) < k):
+                numb_list.pop(i)
+                numb_list.append(0)
+                basis = basis + 1
+            
+    print(numb_list[i], end = ' ')
+#print (numb_list)
+
+n = len(numb_list)
+k = numb_list.count(0)
+count = 0
+
+print (n, k)
+
+for i in range(0, n):
+    if numb_list[i] == 0:
+        count = count + 1 
+        numb_list.append(0)
+        if numb_list[i+1] != 0:
+            numb_list[i] = numb_list[i+1]
+            numb_list.pop(i+1)
+        else: # in case the sequence of zeros:
+            basis = i
+            while (numb_list[i] == 0) and ((count + basis) < k):
+                numb_list.pop(i)
+                #numb_list.append(0)
+                basis = basis + 1
+            
+    print(numb_list[i], end = ' ')
+print (numb_list)
+
+    
