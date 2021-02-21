@@ -67,10 +67,11 @@ for i in range(0, n):
     print(numb_list[i], end = ' ')
 #print (numb_list)
 
-n = len(numb_list)
+# ------------------------
+numb_list = [int(x) for x in input().split()]
+n = len(numb_list) 
 k = numb_list.count(0)
 count = 0
-
 print (n, k)
 
 for i in range(0, n):
@@ -84,10 +85,11 @@ for i in range(0, n):
             basis = i
             while (numb_list[i] == 0) and ((count + basis) < k):
                 numb_list.pop(i)
-                #numb_list.append(0)
+                numb_list.append(0)
                 basis = basis + 1
             
     print(numb_list[i], end = ' ')
 print (numb_list)
+    
 
     
