@@ -34,8 +34,7 @@ for i in range(0, n):
 # Затем нужно вывести количество строк, гласных и согласных в стихотворении и в каждой строке.
 # Для упрощения давайте вводить стихотворение только маленькими русскими буквами. 
 
-# гласные: а, о, у, э, ы, я, е, ю, и 
-# тестовая выборка:
+# доп тестовая выборка:
 #белеет парус одинокой
 #в тумане моря голубом
 #что ищет он в стране далекой
@@ -53,24 +52,20 @@ print ("Сколько будет строк в стихотворении?")
 n = int (input())
 
 # гласные: а, о, у, э, ы, я, е, ю, и 
-a_volwes, b_spaces, c_consonants = 0, 0, 0
+a_volwes, b_others, c_consonants, Sum = 0, 0, 0, 0
 
-#def simbol_counter():
-s=str(input())
-for i in range (0, len(s)):
-    if (s[i]=='а' or s[i]=='о' or s[i]=='у' or s[i]=='э' or s[i]=='ы' or s[i]=='я' or s[i]=='е' or s[i]=='ю' or s[i]=='и'):
-        a_volwes += 1 
+for i in range (0, n):
+    s=str(input())
+    for i in range (0, len(s)):
+        if (s[i]=='а' or s[i]=='о' or s[i]=='у' or s[i]=='э' or s[i]=='ы' or s[i]=='я' or s[i]=='е' or s[i]=='ю' or s[i]=='и'):
+            a_volwes += 1 
+        
+        elif s[i] == ' ' or s[i] == 'ь' or s[i] == 'ъ':
+            b_others += 1 
+    Sum = Sum + len(s) 
+    #print(Sum)
+
+c_consonants = Sum - a_volwes - b_others
     
-    elif s[i] == ' ':
-        b_spaces += 1 
-    #c_consonats = len(s) - a_volwes - b_spaces
-    
-    #return  a_volwes, b_spaces, c_consonats   
-
-
-#for i in range (0, n): # цикл по строкам:
-#a_volwes, b_spaces, c_consonants += simbol_counter()
 print ("Гласных:", a_volwes)
-print ("Согласных:", len(s) - a_volwes - b_spaces)
-
-
+print ("Согласных:", c_consonants)
