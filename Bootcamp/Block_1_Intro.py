@@ -5,4 +5,17 @@
 # Пример результата: 
 4 5 3 5 0 0 0 0
 
+numb_list = [int(x) for x in input().split()]
+
+
+for i in range(0, len(numb_list)):
+    if numb_list[i] == 0:
+        numb_list.append(0)
+        if numb_list[i+1] != 0:
+            numb_list[i] = numb_list[i+1]
+            numb_list.pop(i+1)
+        else:
+            numb_list.pop(1)
+            
+print (numb_list)
 
