@@ -58,3 +58,9 @@ print (ceil (m / n))
 # Дано трехзначное число. Найдите сумму его цифр.
 abc = int(input())
 print (abc // 100 + abc%100//10 + abc%10) 
+
+
+# Дано два числа a и b. Выведите гипотенузу треугольника с заданными катетами.
+from math import *
+a , b = int(input(a)), int(input(b))
+print (sqrt ( a**2 + b**2 ) )
