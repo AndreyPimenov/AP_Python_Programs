@@ -52,3 +52,9 @@ from math import ceil
 n, m = int (input()), int(input())
 print (ceil (m / n))
 
+
+
+# 
+# Дано трехзначное число. Найдите сумму его цифр.
+abc = int(input())
+print (abc // 100 + abc%100//10 + abc%10) 
