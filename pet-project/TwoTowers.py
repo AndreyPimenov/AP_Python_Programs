@@ -1,6 +1,7 @@
 # _________________ Block of Libraries:
 import random
 import math
+import time
 
 # _________________ Block of Classes:
 class Hero:
@@ -51,17 +52,16 @@ class Hero:
 
 
 # _________________ Block of Variables:
-n = 10
-
+n = 10              # мультипликтаор
+position_flag = "Bridge" # начальная позиция
+command = " "
 
 # _________________ Block of Functions:
 def roll_the_dice():
     return random.randint(1, 6)
 
-#def show_the_map():
-
-def command():
-    input("<<")
+#def command():
+#    input("<<")
 
 def help_function():
     print("M - вывод карты на экран, если подзабыл куда двигаться", '\n')
@@ -78,47 +78,80 @@ def help_function():
     print("R - бросить кубик", '\n')
     print("Q - выход из игры", '\n')
 
-def map_fucntion():
+def map_funсtion():
     print(
     "Карта мира (вид сверху):", '\n'
     " ___________________________________________________", '\n',
-    "| 2A    | 1A       | ~ ~ ~  | 1B       | 2B         |", '\n',
+    "| A2    | A1       | ~ ~ ~  | B1       | B2         |", '\n',
     "|       |__________|  ~ ~   |__________|            |", '\n',
     "|       /          | river  |           \           |", '\n',
     "|      /           | ~ ~ ~  |            \          |", '\n',
     "|_____/            |  ~ ~   |             \_________|", '\n',
-    "| 3A  |            |________|             | 3B      |", '\n',
+    "| A3  |            |________|             | B3      |", '\n',
     "|     |     A      | Bridge |   B         |         |", '\n',
     "|     |   TOWER    |________| TOWER       |         |", '\n',
     "|_____|            |        |             |_________|", '\n',
-    "| 4A   \           |  ~ ~   |            / 4B       |", '\n',
+    "| A4   \           |  ~ ~   |            / B4       |", '\n',
     "|       \          | river  |           /           |", '\n',
     "|        \_________|  ~ ~   |__________/            |", '\n',
-    "|        | 5A      | ~ ~ ~  | 5B       |            |", '\n',
+    "|        | A5      | ~ ~ ~  | B5       |            |", '\n',
     "|________|_________|________|__________|____________|", '\n')
 
+def move_function(direction, position_flag_local):
+    # -------- MAP Graph:
+    #            bridge (Home position)
+    #            /   \
+    #       Tower A  Tower B
+    #         |         |
+    #        3A         3B
+    #       /   \      /   \
+    #      2A   4A    2B   4B
+    #      |     |     |    |
+    #      1A    5A   1B    5B
+    # -------------------------
+    print("Ты находишься в локации", position_flag_local)
+    while position_flag_local == "Bridge":
+        if direction == 'gW':
+            print("Башня A - арсенал")
+            if input("Идем?") == ("Y" or "y"):
+                position_flag_local = "Tower A"
+                break
+            else:
+                break
+        elif direction == 'gE':
+            print("Башня Б - казарма")
+            if input("Идем?") == ("Y" or "y"):
+                position_flag_local = "Tower B"
+                break
+            else:
+                break
+        else:
+            print("тут река")
+            break
+    print("ты в локации", position_flag_local)
+    return position_flag_local
 
 # _________________ Legend:
 print("Мир: Фентези чистой воды", '\n' "Жанр: текстовая  RPG", '\n')
 
 print("Хочешь посмотреть карту мира?  (отвечай в формате Y/N или y/n)")
 if  input() == ('Y' or 'y'):
-    print(".... Вы находитесь на мосту между двух башен", '\n'
-          "в этой главе вам нужно подготовиться и отбить вторжение....", '\n' "Карта мира (вид сверху):", '\n'
-          " ___________________________________________________",  '\n',
-          "| 2A    | 1A       | ~ ~ ~  | 1B       | 2B         |", '\n',
+    print(".... Ты стоишь на мосту между двух башен", '\n'
+          "в этой главе тебе нужно подготовиться и отбить вторжение....", '\n' "Карта мира (вид сверху):", '\n'
+          " ___________________________________________________", '\n',
+          "| A2    | A1       | ~ ~ ~  | B1       | B2         |", '\n',
           "|       |__________|  ~ ~   |__________|            |", '\n',
           "|       /          | river  |           \           |", '\n',
           "|      /           | ~ ~ ~  |            \          |", '\n',
           "|_____/            |  ~ ~   |             \_________|", '\n',
-          "| 3A  |            |________|             | 3B      |", '\n',
+          "| A3  |            |________|             | B3      |", '\n',
           "|     |     A      | Bridge |   B         |         |", '\n',
           "|     |   TOWER    |________| TOWER       |         |", '\n',
           "|_____|            |        |             |_________|", '\n',
-          "| 4A   \           |  ~ ~   |            / 4B       |", '\n',
+          "| A4   \           |  ~ ~   |            / B4       |", '\n',
           "|       \          | river  |           /           |", '\n',
           "|        \_________|  ~ ~   |__________/            |", '\n',
-          "|        | 5A      | ~ ~ ~  | 5B       |            |", '\n',
+          "|        | A5      | ~ ~ ~  | B5       |            |", '\n',
           "|________|_________|________|__________|____________|", '\n')
 else:
     print("Действительно, кому нужны старые карты....")
@@ -174,7 +207,7 @@ if input() == ('Y' or 'y'):
     main_hero.charm = main_hero.charm / sum * n
 
 else:
-    name = "Nick"
+    name = "Noob"
     main_hero = Hero(1, 2, 2, 2, 2, name)
 
 print("Поздравляю персонаж", name, "создан!")
@@ -183,16 +216,6 @@ print("ИНТЕЛЛЕКТ", "%.2f" % (main_hero.getIntel()))
 print("ЛОВКОСТЬ", "%.2f" % (main_hero.getAgity()))
 print("СИЛА", "%.2f" % (main_hero.getStrenght()))
 print("ОБАЯНИЕ", "%.2f" % (main_hero.getCharm()))
-
-
-chance = input("Ночной сумрак поглощает пространство вокруг тебя...ты стоишь перед дверью в подземелье готов ли ты открыть ее?")
-
-if chance == 'да' or chance == 'ДА' or chance == 'Да':
-    print("дверь закрылась за тобой зловеще и со скрипом...")
-elif chance == 'нет' or chance == 'НЕТ' or chance == 'Нет':
-    print("твоего персонажа сьели неизвестные существа...")
-else:
-    print("Продолжение следует... ")
 
 # _________________  Game:
 # Tower A - тут арсенал, а значит можно вооружиться
@@ -209,19 +232,39 @@ else:
 # 5B - песчанная пустыня, тут живет маг-отшельник у которого можно выучить заклинания
 #
 
+print ("игра началась", '\n')
+print ("5...", '\n')
+time.sleep(1)
+print ("4...", '\n')
+time.sleep(1)
+print ("3...", '\n')
+time.sleep(1)
+print ("2...", '\n')
+time.sleep(1)
+print ("1...", '\n')
+time.sleep(1)
+print ("0...", '\n')
+time.sleep(1)
+print ("Поехали!", '\n')
+time.sleep(1)
+
+print(main_hero.name, "ты весь мокрый и стоишь на широком мосту между двух огромных башен")
+
 while command != "Q":
     command = input("<<")
     if command == 'H':
         help_function()
     elif command == 'M':
-        map_fucntion()
+        map_funсtion()
     elif command == 'gW':
-        print("Башня A - арсенал")
+        print("начальная позиция", position_flag)
+        position_flag = move_function(command, position_flag)
+        print("конечная позиция", position_flag)
     elif command == 'gE':
-        print("Башня Б - казарма")
+        print("начальная позиция", position_flag)
+        position_flag = move_function(command, position_flag)
+        print("конечная позиция", position_flag)
     elif command == 'R':
         print(roll_the_dice())
     else:
         print("продолжение следует")
-
-
