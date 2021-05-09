@@ -50,6 +50,10 @@ class Hero:
 
     # Сharisma = charm * 0.5 + intelegence * 0.2 + current_health / healt
 
+class Location:
+    'Это класс Локация'
+    def __init__(self, location):
+        self.location = location
 
 # _________________ Block of Variables:
 n = 10              # мультипликтаор
@@ -80,7 +84,16 @@ def help_function():
 
 def map_funсtion():
     print(
-    "Карта мира (вид сверху):", '\n'
+    "навигация по миру осуществляется:", '\n',
+    "          gN         ", '\n',
+    "         / \         ", '\n',
+    "          |          ", '\n',
+    "gW  <-----|----->  gE", '\n',
+    "          |          ", '\n',
+    "         \ /         ", '\n',
+    "          gS         ", '\n',
+
+    "Карта мира (вид сверху):", '\n',
     " ___________________________________________________", '\n',
     "| A2    | A1       | ~ ~ ~  | B1       | B2         |", '\n',
     "|       |__________|  ~ ~   |__________|            |", '\n',
@@ -110,26 +123,241 @@ def move_function(direction, position_flag_local):
     #      1A    5A   1B    5B
     # -------------------------
     print("Ты находишься в локации", position_flag_local)
-    while position_flag_local == "Bridge":
-        if direction == 'gW':
-            print("Башня A - арсенал")
-            if input("Идем?") == ("Y" or "y"):
-                position_flag_local = "Tower A"
-                break
-            else:
-                break
-        elif direction == 'gE':
-            print("Башня Б - казарма")
-            if input("Идем?") == ("Y" or "y"):
-                position_flag_local = "Tower B"
-                break
-            else:
-                break
+
+    if position_flag_local == "Bridge":
+        print ("МОСТ", '\n')
+        # тут можно добавить описание локации
+        if direction == "gW":
+            position_flag_local = "Tower A"
+        elif direction =="gE":
+            position_flag_local = "Tower B"
+        elif direction == "gN":
+            position_flag_local = "Bridge"
+            print("тут северная река. хода нет")
+        elif direction == "gS":
+            position_flag_local = "Bridge"
+            print("тут южная река. хода нет")
         else:
-            print("тут река")
-            break
-    print("ты в локации", position_flag_local)
+            print("ER1 - Какая-то ошибка ввода")
+
+    elif position_flag_local == "Tower A":
+        print("БАШНЯ А - АРСЕНАЛ", '\n')
+        # тут можно добавить описание локации
+        if direction == "gW":
+            position_flag_local = "A3"
+        elif direction =="gE":
+            position_flag_local = "Bridge"
+        elif direction == "gN":
+            position_flag_local = "Tower A"
+            print("чтобы попасть в A1 нужно пройти через A3, а потом A2")
+        elif direction == "gS":
+            position_flag_local = "Tower A"
+            print("чтобы попасть в A5 нужно пройти через A3, а потом A4")
+        else:
+            print("ER2 -Какая-то ошибка ввода")
+
+    elif position_flag_local == "Tower B":
+        print("БАШНЯ Б - КАЗАРМА", '\n')
+        # тут можно добавить описание локации
+        if direction == "gW":
+            position_flag_local = "Bridge"
+        elif direction =="gE":
+            position_flag_local = "B3"
+        elif direction == "gN":
+            position_flag_local = "Tower B"
+            print("чтобы попасть в B1 нужно пройти через B3, а потом B2")
+        elif direction == "gS":
+            position_flag_local = "Tower B"
+            print("чтобы попасть в B5 нужно пройти через B3, а потом B4")
+        else:
+            print("ER3 -Какая-то ошибка ввода")
+
+    elif position_flag_local == "A3":
+        print("А3 - ТОРГОВЕЦ", '\n')
+        # тут можно добавить описание локации
+        if direction == "gW":
+            position_flag_local = "A3"
+            print("туда хода нету...")
+        elif direction =="gE":
+            position_flag_local = "Tower A"
+            print("возвращаешься в башню А")
+        elif direction == "gN":
+            position_flag_local = "A2"
+            print("А2 - ЛЕС СЕВЕРНЫЙ - ЛАГЕРЬ ЛЕСОРУБОВ", '\n')
+        elif direction == "gS":
+            position_flag_local = "A4"
+            print("А4 - ПОЛЕ ЗАПАДНОЕ", '\n')
+        else:
+            print("ER4 -Какая-то ошибка ввода")
+
+    elif position_flag_local == "A2":
+        print("А2 - ЛЕС СЕВЕРНЫЙ - ЛАГЕРЬ ЛЕСОРУБОВ", '\n')
+        # тут можно добавить описание локации
+        if direction == "gW":
+            position_flag_local = "A2"
+            print("туда хода нету... (граница карты)")
+        elif direction =="gE":
+            position_flag_local = "A1"
+            print("ты заходишь в чащу северного леса...")
+        elif direction == "gN":
+            position_flag_local = "A2"
+            print("туда хода нету...(граница карты)")
+        elif direction == "gS":
+            position_flag_local = "A3"
+            print("возвращаешься к торговцу", '\n')
+        else:
+            print("ER5 -Какая-то ошибка ввода")
+
+    elif position_flag_local == "A1":
+        print("А1 - ЛЕС СЕВЕРНЫЙ - ЧАЩА", '\n')
+        # тут можно добавить описание локации
+        if direction == "gW":
+            position_flag_local = "A2"
+            print("возвращаешься в более редкий лес")
+        elif direction =="gE":
+            position_flag_local = "A1"
+            print("хода нет... (тут течет река)")
+        elif direction == "gN":
+            position_flag_local = "A1"
+            print("хода нет... (граница карты)", '\n')
+        elif direction == "gS":
+            position_flag_local = "A1"
+            print("хода нет... ", '\n')
+        else:
+            print("ER6 -Какая-то ошибка ввода")
+
+    elif position_flag_local == "A4":
+        print("А4 - ПОЛЕ ЗАПАДНОЕ", '\n')
+        # тут можно добавить описание локации
+        if direction == "gW":
+            position_flag_local = "A4"
+            print("туда хода нету...(граница карты)")
+        elif direction =="gE":
+            position_flag_local = "A5"
+            print("идешь на мельницу...")
+        elif direction == "gN":
+            position_flag_local = "A3"
+            print("возвращение к торговцу...", '\n')
+        elif direction == "gS":
+            position_flag_local = "A4"
+            print("туда хода нету...(граница карты)")
+        else:
+            print("ER7 -Какая-то ошибка ввода")
+
+    elif position_flag_local == "A5":
+        print("А5 - МЕЛЬНИЦА", '\n')
+        # тут можно добавить описание локации
+        if direction == "gW":
+            position_flag_local = "A4"
+            print("возвращаешься на поле")
+        elif direction =="gE":
+            position_flag_local = "A5"
+            print("туда хода нету...(река)")
+        elif direction == "gN":
+            position_flag_local = "A5"
+            print("туда хода нету...")
+        elif direction == "gS":
+            position_flag_local = "A5"
+            print("туда хода нету...(граница карты)")
+        else:
+            print("ER8 -Какая-то ошибка ввода")
+
+    elif position_flag_local == "B3":
+        print("B3 - ДОРОГА К ВОСТОЧНОЙ БАШНЕ", '\n')
+        # тут можно добавить описание локации
+        if direction == "gW":
+            position_flag_local = "Tower B"
+            print("возвращаешься в башню Б...")
+        elif direction =="gE":
+            position_flag_local = "B3"
+            print("туда хода нету...")
+        elif direction == "gN":
+            position_flag_local = "B2"
+            print("B2 - болота сверные", '\n')
+        elif direction == "gS":
+            position_flag_local = "B4"
+            print("B4 - ПОЛЕ ВОСТОЧНОЕ", '\n')
+        else:
+            print("ER9 -Какая-то ошибка ввода")
+
+    elif position_flag_local == "B2":
+        print("B2 - СЕВЕРНЫЕ БОЛОТА", '\n')
+        # тут можно добавить описание локации
+        if direction == "gW":
+            position_flag_local = "B1"
+            print("дальше в болота...")
+        elif direction =="gE":
+            position_flag_local = "B2"
+            print("туда хода нет... (граница карты)")
+        elif direction == "gN":
+            position_flag_local = "B2"
+            print("туда хода нет... (граница карты)")
+        elif direction == "gS":
+            position_flag_local = "B3"
+            print("Возвращаешься в B3", '\n')
+        else:
+            print("ER10 -Какая-то ошибка ввода")
+
+    elif position_flag_local == "B1":
+        print("B1 - ЛОГОВО НА БОЛОТАХ", '\n')
+        # тут можно добавить описание локации
+        if direction == "gW":
+            position_flag_local = "B1"
+            print("туда хода нету...(река)")
+        elif direction =="gE":
+            position_flag_local = "B2"
+            print("возвращаешься в B2")
+        elif direction == "gN":
+            position_flag_local = "B1"
+            print("туда хода нет...(граница карты)", '\n')
+        elif direction == "gS":
+            position_flag_local = "B1"
+            print("туда хода нет...", '\n')
+        else:
+            print("ER11 -Какая-то ошибка ввода")
+
+    elif position_flag_local == "B4":
+        print("B4 - ЮЖНЫЙ ТРАКТ", '\n')
+        # тут можно добавить описание локации
+        if direction == "gW":
+            position_flag_local = "B5"
+            print("Попадаешь к магу пустыннику...")
+        elif direction =="gE":
+            position_flag_local = "B4"
+            print("туда хода нет...")
+        elif direction == "gN":
+            position_flag_local = "B3"
+            print("возвращаешься в B3", '\n')
+        elif direction == "gS":
+            position_flag_local = "B3"
+            print("туда хода нет...(граница карты)", '\n')
+        else:
+            print("ER12 -Какая-то ошибка ввода")
+
+    elif position_flag_local == "B5":
+        print("B5 - МАГ ПУСТЫННИК", '\n')
+        # тут можно добавить описание локации
+        if direction == "gW":
+            position_flag_local = "B5"
+            print("туда хода нету...(река)")
+        elif direction =="gE":
+            position_flag_local = "B4"
+            print("возвращаешься в B4")
+        elif direction == "gN":
+            position_flag_local = "B5"
+            print("туда хода нет...", '\n')
+        elif direction == "gS":
+            position_flag_local = "B5"
+            print("Туда хода нет...", '\n')
+        else:
+            print("ER13 -Какая-то ошибка ввода")
+
+    else:
+        print("ошибка")
+
     return position_flag_local
+
+
 
 # _________________ Legend:
 print("Мир: Фентези чистой воды", '\n' "Жанр: текстовая  RPG", '\n')
@@ -138,6 +366,14 @@ print("Хочешь посмотреть карту мира?  (отвечай �
 if  input() == ('Y' or 'y'):
     print(".... Ты стоишь на мосту между двух башен", '\n'
           "в этой главе тебе нужно подготовиться и отбить вторжение....", '\n' "Карта мира (вид сверху):", '\n'
+          "навигация по миру осуществляется:", '\n',
+          "          gN         ", '\n',
+          "         / \         ", '\n',
+          "          |          ", '\n',
+          "gW  <-----|----->  gE", '\n',
+          "          |          ", '\n',
+          "         \ /         ", '\n',
+          "          gS         ", '\n',
           " ___________________________________________________", '\n',
           "| A2    | A1       | ~ ~ ~  | B1       | B2         |", '\n',
           "|       |__________|  ~ ~   |__________|            |", '\n',
@@ -248,7 +484,7 @@ time.sleep(1)
 print ("Поехали!", '\n')
 time.sleep(1)
 
-print(main_hero.name, "ты весь мокрый и стоишь на широком мосту между двух огромных башен")
+print(main_hero.name, "ты весь мокрый и стоишь на широком мосту между двух огромных башен. Что ты будешь делать? (для подсказкви набери H)")
 
 while command != "Q":
     command = input("<<")
@@ -257,13 +493,17 @@ while command != "Q":
     elif command == 'M':
         map_funсtion()
     elif command == 'gW':
-        print("начальная позиция", position_flag)
         position_flag = move_function(command, position_flag)
-        print("конечная позиция", position_flag)
+        print("теперь ты находишься в локации: ", position_flag)
     elif command == 'gE':
-        print("начальная позиция", position_flag)
         position_flag = move_function(command, position_flag)
-        print("конечная позиция", position_flag)
+        print("теперь ты находишься в локации: ", position_flag)
+    elif command == 'gN':
+        position_flag = move_function(command, position_flag)
+        print("теперь ты находишься в локации: ", position_flag)
+    elif command == 'gS':
+        position_flag = move_function(command, position_flag)
+        print("теперь ты находишься в локации: ", position_flag)
     elif command == 'R':
         print(roll_the_dice())
     else:
