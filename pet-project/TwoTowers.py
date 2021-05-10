@@ -403,10 +403,45 @@ def time_function(time_flag_local):
     print("День: ", DD, "час: ", HH, "время суток:", time_flag_local)
     return time_flag_local
 
+def person_function():
+    print( name, '\n')
+    print("Твои характеристики:")
+    print("ИНТЕЛЛЕКТ", "%.2f" % (main_hero.getIntel()))
+    print("ЛОВКОСТЬ", "%.2f" % (main_hero.getAgity()))
+    print("СИЛА", "%.2f" % (main_hero.getStrenght()))
+    print("ОБАЯНИЕ", "%.2f" % (main_hero.getCharm()))
+
+def look_around_function():
+    if position_flag == "Bridge":
+        print('...мост...')
+    elif position_flag == "Tower A":
+        print('...башня А, в ней арсенал...')
+    elif position_flag == "Tower B":
+        print('...башня Б, в ней казармы...')
+    elif position_flag == "A1":
+        print('...A1...')
+    elif position_flag == "A2":
+        print('...A2...')
+    elif position_flag == "A3":
+        print('...A3...')
+    elif position_flag == "A4":
+        print('...A4...')
+    elif position_flag == "A5":
+        print('...A5...')
+    elif position_flag == "B1":
+        print('...B1...')
+    elif position_flag == "B2":
+        print('...B2...')
+    elif position_flag == "B3":
+        print('...B3...')
+    elif position_flag == "B4":
+        print('...B4...')
+    elif position_flag == "B5":
+        print('...B5...')
+    else:
+        print("...")
+
 # I - инвентарь
-# P - характеристики персонажа
-# L - осмотреться
-# T - время до вторжения
 # S - начать разговор
 # A - атаковать
 
@@ -540,7 +575,7 @@ time.sleep(1)
 print(main_hero.name,
       "ты весь мокрый и стоишь на широком мосту между двух огромных башен. Что ты будешь делать? (для подсказкви набери H)")
 
-while command != "Q":
+while command != ("Q" or "q"):
     command = input("<<")
     if command == 'H':
         help_function()
@@ -560,11 +595,11 @@ while command != "Q":
         print("теперь ты находишься в локации: ", position_flag)
     elif command == 'T':
         time_flag = time_function(time_flag)
+    elif command == 'P':
+        person_function()
     elif command == 'R':
         print(roll_the_dice())
+    elif command == 'L':
+        look_around_function()
     else:
         print("продолжение следует")
-        
-        
-        
-        
