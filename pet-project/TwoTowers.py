@@ -3,9 +3,11 @@ import random
 import math
 import time
 
+
 # _________________ Block of Classes:
 class Hero:
     'Это класс персонажа'
+
     def __init__(self, level, intelegence, agity, strenght, charm, name):
         self.level = level
         self.intelegence = intelegence
@@ -15,7 +17,7 @@ class Hero:
         self.name = name
 
         health = strenght * 24
-        #defence =
+        # defence =
 
     # Experience:
     def getLevel(self):
@@ -50,22 +52,23 @@ class Hero:
 
     # Сharisma = charm * 0.5 + intelegence * 0.2 + current_health / healt
 
+
 class Location:
     'Это класс Локация'
+
     def __init__(self, location):
         self.location = location
 
+
 # _________________ Block of Variables:
-n = 10              # мультипликтаор
-position_flag = "Bridge" # начальная позиция
+n = 10  # мультипликтаор
+position_flag = "Bridge"  # начальная позиция
+time_flag = " "  # начальное значение флага дня
 command = " "
+time_now = 12  # полдень первого дня
+
 
 # _________________ Block of Functions:
-def roll_the_dice():
-    return random.randint(1, 6)
-
-#def command():
-#    input("<<")
 
 def help_function():
     print("M - вывод карты на экран, если подзабыл куда двигаться", '\n')
@@ -82,35 +85,8 @@ def help_function():
     print("R - бросить кубик", '\n')
     print("Q - выход из игры", '\n')
 
-def map_funсtion():
-    print(
-    "навигация по миру осуществляется:", '\n',
-    "          gN         ", '\n',
-    "         / \         ", '\n',
-    "          |          ", '\n',
-    "gW  <-----|----->  gE", '\n',
-    "          |          ", '\n',
-    "         \ /         ", '\n',
-    "          gS         ", '\n',
 
-    "Карта мира (вид сверху):", '\n',
-    " ___________________________________________________", '\n',
-    "| A2    | A1       | ~ ~ ~  | B1       | B2         |", '\n',
-    "|       |__________|  ~ ~   |__________|            |", '\n',
-    "|       /          | river  |           \           |", '\n',
-    "|      /           | ~ ~ ~  |            \          |", '\n',
-    "|_____/            |  ~ ~   |             \_________|", '\n',
-    "| A3  |            |________|             | B3      |", '\n',
-    "|     |     A      | Bridge |   B         |         |", '\n',
-    "|     |   TOWER    |________| TOWER       |         |", '\n',
-    "|_____|            |        |             |_________|", '\n',
-    "| A4   \           |  ~ ~   |            / B4       |", '\n',
-    "|       \          | river  |           /           |", '\n',
-    "|        \_________|  ~ ~   |__________/            |", '\n',
-    "|        | A5      | ~ ~ ~  | B5       |            |", '\n',
-    "|________|_________|________|__________|____________|", '\n')
-
-def move_function(direction, position_flag_local):
+def move_function(direction, position_flag_local, time2move):
     # -------- MAP Graph:
     #            bridge (Home position)
     #            /   \
@@ -125,11 +101,13 @@ def move_function(direction, position_flag_local):
     print("Ты находишься в локации", position_flag_local)
 
     if position_flag_local == "Bridge":
-        print ("МОСТ", '\n')
+        print("МОСТ", '\n')
         # тут можно добавить описание локации
         if direction == "gW":
+            time2move = time2move + 0.25
             position_flag_local = "Tower A"
-        elif direction =="gE":
+        elif direction == "gE":
+            time2move = time2move + 0.25
             position_flag_local = "Tower B"
         elif direction == "gN":
             position_flag_local = "Bridge"
@@ -144,8 +122,10 @@ def move_function(direction, position_flag_local):
         print("БАШНЯ А - АРСЕНАЛ", '\n')
         # тут можно добавить описание локации
         if direction == "gW":
+            time2move = time2move + 0.5
             position_flag_local = "A3"
-        elif direction =="gE":
+        elif direction == "gE":
+            time2move = time2move + 0.25
             position_flag_local = "Bridge"
         elif direction == "gN":
             position_flag_local = "Tower A"
@@ -160,8 +140,10 @@ def move_function(direction, position_flag_local):
         print("БАШНЯ Б - КАЗАРМА", '\n')
         # тут можно добавить описание локации
         if direction == "gW":
+            time2move = time2move + 0.25
             position_flag_local = "Bridge"
-        elif direction =="gE":
+        elif direction == "gE":
+            time2move = time2move + 0.5
             position_flag_local = "B3"
         elif direction == "gN":
             position_flag_local = "Tower B"
@@ -178,15 +160,18 @@ def move_function(direction, position_flag_local):
         if direction == "gW":
             position_flag_local = "A3"
             print("туда хода нету...")
-        elif direction =="gE":
+        elif direction == "gE":
+            time2move = time2move + 0.5
             position_flag_local = "Tower A"
             print("возвращаешься в башню А")
         elif direction == "gN":
             position_flag_local = "A2"
             print("А2 - ЛЕС СЕВЕРНЫЙ - ЛАГЕРЬ ЛЕСОРУБОВ", '\n')
+            time2move = time2move + 1
         elif direction == "gS":
             position_flag_local = "A4"
             print("А4 - ПОЛЕ ЗАПАДНОЕ", '\n')
+            time2move = time2move + 1
         else:
             print("ER4 -Какая-то ошибка ввода")
 
@@ -196,15 +181,17 @@ def move_function(direction, position_flag_local):
         if direction == "gW":
             position_flag_local = "A2"
             print("туда хода нету... (граница карты)")
-        elif direction =="gE":
+        elif direction == "gE":
             position_flag_local = "A1"
             print("ты заходишь в чащу северного леса...")
+            time2move = time2move + 2
         elif direction == "gN":
             position_flag_local = "A2"
             print("туда хода нету...(граница карты)")
         elif direction == "gS":
             position_flag_local = "A3"
             print("возвращаешься к торговцу", '\n')
+            time2move = time2move + 1
         else:
             print("ER5 -Какая-то ошибка ввода")
 
@@ -214,7 +201,8 @@ def move_function(direction, position_flag_local):
         if direction == "gW":
             position_flag_local = "A2"
             print("возвращаешься в более редкий лес")
-        elif direction =="gE":
+            time2move = time2move + 2
+        elif direction == "gE":
             position_flag_local = "A1"
             print("хода нет... (тут течет река)")
         elif direction == "gN":
@@ -232,12 +220,14 @@ def move_function(direction, position_flag_local):
         if direction == "gW":
             position_flag_local = "A4"
             print("туда хода нету...(граница карты)")
-        elif direction =="gE":
+        elif direction == "gE":
             position_flag_local = "A5"
             print("идешь на мельницу...")
+            time2move = time2move + 1
         elif direction == "gN":
             position_flag_local = "A3"
             print("возвращение к торговцу...", '\n')
+            time2move = time2move + 1
         elif direction == "gS":
             position_flag_local = "A4"
             print("туда хода нету...(граница карты)")
@@ -250,7 +240,8 @@ def move_function(direction, position_flag_local):
         if direction == "gW":
             position_flag_local = "A4"
             print("возвращаешься на поле")
-        elif direction =="gE":
+            time2move = time2move + 1
+        elif direction == "gE":
             position_flag_local = "A5"
             print("туда хода нету...(река)")
         elif direction == "gN":
@@ -268,15 +259,18 @@ def move_function(direction, position_flag_local):
         if direction == "gW":
             position_flag_local = "Tower B"
             print("возвращаешься в башню Б...")
-        elif direction =="gE":
+            time2move = time2move + 0.5
+        elif direction == "gE":
             position_flag_local = "B3"
             print("туда хода нету...")
         elif direction == "gN":
             position_flag_local = "B2"
             print("B2 - болота сверные", '\n')
+            time2move = time2move + 2
         elif direction == "gS":
             position_flag_local = "B4"
             print("B4 - ПОЛЕ ВОСТОЧНОЕ", '\n')
+            time2move = time2move + 2
         else:
             print("ER9 -Какая-то ошибка ввода")
 
@@ -286,7 +280,8 @@ def move_function(direction, position_flag_local):
         if direction == "gW":
             position_flag_local = "B1"
             print("дальше в болота...")
-        elif direction =="gE":
+            time2move = time2move + 2
+        elif direction == "gE":
             position_flag_local = "B2"
             print("туда хода нет... (граница карты)")
         elif direction == "gN":
@@ -295,6 +290,7 @@ def move_function(direction, position_flag_local):
         elif direction == "gS":
             position_flag_local = "B3"
             print("Возвращаешься в B3", '\n')
+            time2move = time2move + 2
         else:
             print("ER10 -Какая-то ошибка ввода")
 
@@ -304,9 +300,10 @@ def move_function(direction, position_flag_local):
         if direction == "gW":
             position_flag_local = "B1"
             print("туда хода нету...(река)")
-        elif direction =="gE":
+        elif direction == "gE":
             position_flag_local = "B2"
             print("возвращаешься в B2")
+            time2move = time2move + 2
         elif direction == "gN":
             position_flag_local = "B1"
             print("туда хода нет...(граница карты)", '\n')
@@ -322,12 +319,14 @@ def move_function(direction, position_flag_local):
         if direction == "gW":
             position_flag_local = "B5"
             print("Попадаешь к магу пустыннику...")
-        elif direction =="gE":
+            time2move = time2move + 2
+        elif direction == "gE":
             position_flag_local = "B4"
             print("туда хода нет...")
         elif direction == "gN":
             position_flag_local = "B3"
             print("возвращаешься в B3", '\n')
+            time2move = time2move + 2
         elif direction == "gS":
             position_flag_local = "B3"
             print("туда хода нет...(граница карты)", '\n')
@@ -340,33 +339,86 @@ def move_function(direction, position_flag_local):
         if direction == "gW":
             position_flag_local = "B5"
             print("туда хода нету...(река)")
-        elif direction =="gE":
+        elif direction == "gE":
             position_flag_local = "B4"
             print("возвращаешься в B4")
+            time2move = time2move + 2
         elif direction == "gN":
             position_flag_local = "B5"
             print("туда хода нет...", '\n')
         elif direction == "gS":
             position_flag_local = "B5"
-            print("Туда хода нет...", '\n')
+            print("Туда хода нет...(граница карты)", '\n')
         else:
             print("ER13 -Какая-то ошибка ввода")
 
     else:
         print("ошибка")
 
-    return position_flag_local
+    return position_flag_local, time2move
 
 
+def map_function():
+    print(".... Ты стоишь на мосту между двух башен", '\n'
+                                                      "в этой главе тебе нужно подготовиться и отбить вторжение....",
+          '\n'
+
+          "навигация по миру осуществляется:", '\n',
+          "          gN         ", '\n',
+          "         / \         ", '\n',
+          "          |          ", '\n',
+          "gW  <-----|----->  gE", '\n',
+          "          |          ", '\n',
+          "         \ /         ", '\n',
+          "          gS         ", '\n',
+          "Карта мира (вид сверху):", '\n'
+                                      " ___________________________________________________", '\n',
+          "| A2    | A1       | ~ ~ ~  | B1       | B2         |", '\n',
+          "|       |__________|  ~ ~   |__________|            |", '\n',
+          "|       /          | river  |           \           |", '\n',
+          "|      /           | ~ ~ ~  |            \          |", '\n',
+          "|_____/            |  ~ ~   |             \_________|", '\n',
+          "| A3  |            |________|             | B3      |", '\n',
+          "|     |     A      | Bridge |   B         |         |", '\n',
+          "|     |   TOWER    |________| TOWER       |         |", '\n',
+          "|_____|            |        |             |_________|", '\n',
+          "| A4   \           |  ~ ~   |            / B4       |", '\n',
+          "|       \          | river  |           /           |", '\n',
+          "|        \_________|  ~ ~   |__________/            |", '\n',
+          "|        | A5      | ~ ~ ~  | B5       |            |", '\n',
+          "|________|_________|________|__________|____________|", '\n')
+
+
+def roll_the_dice():
+    return random.randint(1, 6)
+
+
+def time_function(time_flag_local):
+    DD = time_now // 24
+    HH = time_now % 24
+    if HH > 20 or HH <= 9:
+        time_flag_local = "NIGHT"
+    else:
+        time_flag_local = "DAY"
+    print("День: ", DD, "час: ", HH, "время суток:", time_flag_local)
+    return time_flag_local
+
+# I - инвентарь
+# P - характеристики персонажа
+# L - осмотреться
+# T - время до вторжения
+# S - начать разговор
+# A - атаковать
 
 # _________________ Legend:
-print("Мир: Фентези чистой воды", '\n' "Жанр: текстовая  RPG", '\n')
+print("Мир: Фэнтези чистой воды", '\n' "Жанр: текстовая  RPG", '\n')
 
 print("Хочешь посмотреть карту мира?  (отвечай в формате Y/N или y/n)")
-if  input() == ('Y' or 'y'):
+if input() == ('Y' or 'y'):
     print(".... Ты стоишь на мосту между двух башен", '\n'
-          "в этой главе тебе нужно подготовиться и отбить вторжение....", '\n' "Карта мира (вид сверху):", '\n'
-          "навигация по миру осуществляется:", '\n',
+                                                      "в этой главе тебе нужно подготовиться и отбить вторжение....",
+          '\n' "Карта мира (вид сверху):", '\n'
+                                           "навигация по миру осуществляется:", '\n',
           "          gN         ", '\n',
           "         / \         ", '\n',
           "          |          ", '\n',
@@ -412,14 +464,14 @@ if input() == ('Y' or 'y'):
     print("Q - выход из игры", '\n')
 
 else:
-    print("Подсказки это для слабоков!")
+    print("Подсказки это для слабаков!")
 
 print("Хочешь создать своего персонажа?  (отвечай в формате Y/N или y/n)")
 if input() == ('Y' or 'y'):
     name = input("имя: ")
     main_hero = Hero(1, 0, 0, 0, 0, name)
 
-    print(main_hero.name, ", твой уровень сейчас", main_hero.getLevel() )
+    print(main_hero.name, ", твой уровень сейчас", main_hero.getLevel())
     print("Давай распределим твои навыки. Их четыре: интеллект, ловкость, сила, обаяние:")
     print("1. интеллект, позволяет тебе собирать новые устройства, использовать новые предметы")
     print("2. ловкость, повышает твою скорострельность и уворачиваемость")
@@ -432,7 +484,8 @@ if input() == ('Y' or 'y'):
     main_hero.agity = int(input("Сколько из них потратим на ловкость?"))
     print("у тебя осталось", n * main_hero.getLevel() - main_hero.intelegence - main_hero.agity, "очков")
     main_hero.strenght = int(input("Сколько из них потратим на cилу?"))
-    print("у тебя осталось", n * main_hero.getLevel() - main_hero.intelegence - main_hero.agity - main_hero.strenght, "очков")
+    print("у тебя осталось", n * main_hero.getLevel() - main_hero.intelegence - main_hero.agity - main_hero.strenght,
+          "очков")
     main_hero.charm = int(input("Сколько из них потратим на обаяние?"))
 
     # Проверка анти-чит:
@@ -468,43 +521,50 @@ print("ОБАЯНИЕ", "%.2f" % (main_hero.getCharm()))
 # 5B - песчанная пустыня, тут живет маг-отшельник у которого можно выучить заклинания
 #
 
-print ("игра началась", '\n')
-print ("5...", '\n')
+print("игра началась", '\n')
+print("5...", '\n')
 time.sleep(1)
-print ("4...", '\n')
+print("4...", '\n')
 time.sleep(1)
-print ("3...", '\n')
+print("3...", '\n')
 time.sleep(1)
-print ("2...", '\n')
+print("2...", '\n')
 time.sleep(1)
-print ("1...", '\n')
+print("1...", '\n')
 time.sleep(1)
-print ("0...", '\n')
+print("0...", '\n')
 time.sleep(1)
-print ("Поехали!", '\n')
+print("Поехали!", '\n')
 time.sleep(1)
 
-print(main_hero.name, "ты весь мокрый и стоишь на широком мосту между двух огромных башен. Что ты будешь делать? (для подсказкви набери H)")
+print(main_hero.name,
+      "ты весь мокрый и стоишь на широком мосту между двух огромных башен. Что ты будешь делать? (для подсказкви набери H)")
 
 while command != "Q":
     command = input("<<")
     if command == 'H':
         help_function()
-    elif command == 'M':
-        map_funсtion()
+    elif command == "M":
+        map_function()
     elif command == 'gW':
-        position_flag = move_function(command, position_flag)
+        position_flag, time_now = move_function(command, position_flag, time_now)
         print("теперь ты находишься в локации: ", position_flag)
     elif command == 'gE':
-        position_flag = move_function(command, position_flag)
+        position_flag, time_now = move_function(command, position_flag, time_now)
         print("теперь ты находишься в локации: ", position_flag)
     elif command == 'gN':
-        position_flag = move_function(command, position_flag)
+        position_flag, time_now = move_function(command, position_flag, time_now)
         print("теперь ты находишься в локации: ", position_flag)
     elif command == 'gS':
-        position_flag = move_function(command, position_flag)
+        position_flag, time_now = move_function(command, position_flag, time_now)
         print("теперь ты находишься в локации: ", position_flag)
+    elif command == 'T':
+        time_flag = time_function(time_flag)
     elif command == 'R':
         print(roll_the_dice())
     else:
         print("продолжение следует")
+        
+        
+        
+        
