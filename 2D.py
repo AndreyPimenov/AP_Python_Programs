@@ -377,3 +377,30 @@ for i in range(len):
 
 
 plt.show()
+
+#-------------------------
+
+
+step = 6.25000000e-03
+nmax = int(320 / step)
+mmax = int(80 / step)
+print(nmax, type(nmax))
+print(mmax, type(mmax))
+
+n = np.linspace(0, 1, nmax)
+m = np.linspace(0, 1, mmax)
+x, y = np.meshgrid(n, m)
+
+z = np.zeros(( 80, 320, 3))
+# z[:, :, 0] = x
+# z[:, :, 2] = y
+
+plt.figure()
+plt.imshow(z)
+plt.title("Density" )
+plt.xlabel("X axis")
+plt.ylabel("Y axis")
+plt.show()
+
+16 GB!!! - работает по блокам по 320 пикселей
+#------------------------
