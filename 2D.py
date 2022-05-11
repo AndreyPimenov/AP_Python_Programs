@@ -1,3 +1,136 @@
+# This project is related to spectra interpretation for my thesis:
+# Visualisation of the fort.q0000
+# x = 80, y = 320 therefore 25600 pixels
+# It means 25600 informative rows!
+# However, file has 25688 rows, it means 88 rows are not informative
+# 8 first rows - for metadata
+# 9th row for space
+# then each after 320 rows it has an empty row (80 - 1 = 79 rows)
+# Thus, the structure of the data os looks like following:
+# 8 metadata rows + 1 empty row
+# for i in range (80): 320 informative rows
+# step for x and for y is 0.00625 or 6.25000000e-03
+
+import matplotlib.pyplot as plt
+import numpy as np
+from scipy import signal
+#import cv2
+
+Density, Axis_xm, Axis_ym, Energy, Num_eqn = np.array([]), np.array([]),np.array([]),np.array([]),np.array([])
+
+# Preparation function to read the files:
+way = 'C:/Users/andrey.pimenov/Desktop/AP_KWORK/FILES/'
+column = 0
+init = 9 # номер первого значимого элемента в файле, т.е. 10ая строка
+
+#---------------------------------------READING:
+with open(way + 'fort.q0000', 'r') as f1:
+    # считываем все строки:
+    lines = f1.readlines()
+
+    for j in range (0, 80):
+        # cчитываем 80 строк:
+        for line in lines[init:(init + 320)]:
+            #     # проверка:
+            #     print (line)
+            #     column = column + 1
+            # print(column)
+            STR = line
+            Density = np.append(Density, STR[4:18])
+        init = init + 320 + 1
+        #print (">>>>>>>>>>>>>>>>>>>>>>>>>>>", init)
+    # проверка:
+    #print (Density)
+    #print(len(Density))
+
+#-----------------------------------PLOTTING:
+
+# step = 6.25000000e-03
+# nmax = int(320 / step)
+# mmax = int(80 / step)
+# print(nmax, type(nmax))
+# print(mmax, type(mmax))
+#
+# n = np.linspace(0, 1, nmax)
+# m = np.linspace(0, 1, mmax)
+# x, y = np.meshgrid(n, m)
+#
+# z = np.zeros(( 80, 320, 3))
+# # z[:, :, 0] = x
+# # z[:, :, 2] = y
+#
+# plt.figure()
+# plt.imshow(z)
+# plt.title("Density" )
+# plt.xlabel("X axis")
+# plt.ylabel("Y axis")
+# plt.show()
+
+#------------------------------------BACKUP:
+# # detrending the signal:
+# x_detrend = signal.detrend(ARS_x)
+# y_detrend = signal.detrend(ARS_y)
+
+# # Preparation function to read the files:
+# way = 'C:/Users/andrey.pimenov/Desktop/AP_KWORK/FILES/'
+# len = 25600
+#
+# step = 6.25000000e-03
+# data_init = 9
+#
+# with open(way + 'fort.q0000') as f1:
+#     for i in range(9):
+#         f1.readline()
+#
+#     for line in range (9, (len + 9), 1):
+#         STR = f1.readline()
+#
+#         if (STR == ("\n" or '')):
+#             STR = f1.readline()
+#
+#         Density = np.append(Density, STR[6:18])
+#         Axis_xm = np.append(Axis_xm, STR[22:37])
+#         Axis_ym = np.append(Axis_ym, STR[39:55])
+#         Energy = np.append(Energy, STR[60:71])
+#         Num_eqn = np.append(Num_eqn, STR[78:90])
+#
+#
+# for i in range(len):
+#     if float(Density[i]) > 0:
+#         plt.scatter(Axis_ym[i],Axis_xm[i])
+
+#-------------------------
+# Axis_xm = np.append(Axis_xm, STR[22:37])
+        # Axis_ym = np.append(Axis_ym, STR[39:55])
+        # Energy = np.append(Energy, STR[60:71])
+        # Num_eqn = np.append(Num_eqn, STR[78:90])
+    #print (Density[0:11])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #!/usr/bin/env python
 # encoding: utf-8
 r"""
