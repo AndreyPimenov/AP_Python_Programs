@@ -1,4 +1,85 @@
 # This project is related to spectra interpretation for my thesis:
+# Visualisation of the fort.q0000 ... fort.q0010
+# x = 80, y = 320 therefore 25600 pixels
+# It means 25600 informative cells or 25600 rows in the txt file
+# However, file has 25688 rows, it means 88 rows are not informative
+# 8 first rows - for metadata + 9th row for an additional space
+# then after each 320 rows it has an empty row (Thus, 80 - 1 = 79 rows)
+# Thus, the structure of the data os looks like following:
+# 8 metadata rows + 1 empty row
+# for i in range (80): 320 informative rows + 1 row for separation blocks of data
+# step for x and for y is 0.00625 or 6.25000000e-03
+
+import matplotlib.pyplot as plt
+import numpy as np
+import math
+from scipy import signal
+import cv2
+
+Density, Axis_xm, Axis_ym, Energy, Num_eqn = np.array([]), np.array([]),np.array([]),np.array([]),np.array([])
+vectorSTR = []
+# Preparation function to read the files:
+way = 'C:/Users/andrey.pimenov/Desktop/AP_KWORK/FILES/'
+column = 0
+
+#---------------------------------------READING:
+def lineInerpretator(strIn):
+    # print(strIn, type(strIn), "<<< Initial String")
+    list_Var = []
+    var = ""
+    flag = False
+
+    for Symbol in strIn:
+        if Symbol != " ":
+            var = var + Symbol
+            flag = True
+        elif (Symbol == " " and flag == True):
+            list_Var.append(var)
+            var = " "
+            flag = False
+    list_Var.append(var)
+
+    # #check:
+    # print(float(list_Var[4]))
+    # print(list_Var)
+
+    return list_Var
+
+with open(way + 'fort.q0010', 'r') as f1:
+    lines = f1.read().splitlines() # 9 ... 25687
+    # cчитываем 80 раз по 320 строк, начиная с 9-й:
+    init = 9  # номер первого значимого элемента в файле, т.е. 10ая строка текстового файла
+    limit = 0 #init + 320
+    # check:
+    # print(lineInerpretator(lines[init]))
+
+    # TO DO:
+    # 1 - написать функцию разбиения строки на данные - DONE
+    # 2 - построить каждый
+
+    # for line in lines[init:(init+320)]:
+    #     vectorSTR = lineInerpretator(line)
+    #     print(vectorSTR)
+
+    for j in range(0, 80):
+        limit = init + 320
+        print(init, limit)
+
+        for line in lines[init:limit]: #for 1 block of data = 320 rows
+            vectorSTR = lineInerpretator(line)
+
+            Density = np.append(Density, vectorSTR[0])
+            # Axis_xm = np.append(Axis_xm, vectorSTR[1])
+            # Axis_ym = np.append(Axis_ym, vectorSTR[2])
+            Energy = np.append(Energy, vectorSTR[3])
+            # Num_eqn = np.append(Num_eqn, vectorSTR[4])
+
+        init = limit + 1
+
+    print("Density: ", len(Density), "\n", Density)
+
+#-----------------------------------------------------------------
+# This project is related to spectra interpretation for my thesis:
 # Visualisation of the fort.q0000
 # x = 80, y = 320 therefore 25600 pixels
 # It means 25600 informative rows!
