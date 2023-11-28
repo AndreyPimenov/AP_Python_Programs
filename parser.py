@@ -102,15 +102,16 @@ for i in range (40):
 
             print (file_to_open)
             parser_func(file_to_open)
-            #save_data_func(0)
-            #print(y_list)
             save_data_func(1)
 
     elif (i > 9) and (i < 40):
-        print("hi")
+        file = "00" + str(i)
+        string = "SN-2023-11-22-13-27-36-00000" + file + ".csv"
+        file_to_open = data_folder / string
 
-#    elif: ((i > 0) && (i < 9)):
+        print(file_to_open)
+        parser_func(file_to_open)
+        save_data_func(1)
 
- #   file = str()
-
-# поработай через np
+#   elif: ((i > 0) && (i < 9)):
+#   file = str()
