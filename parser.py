@@ -49,7 +49,7 @@ def save_data_func(both_list_flag): # if 0 = init, if 1 = add
                 # print(output)
 
                 data_t[i] = output
-                print(data_t[i])
+                #print(data_t[i])
                 data_t.append(output)
 
     with open(file_to_save, 'r+') as f:
@@ -82,7 +82,7 @@ file_to_save = data_folder / "biuld.txt"
 
 #Прогоняем по всем файлам из папки:
 for i in range (40):
-    if i < 9:
+    if i <= 9:
         file = "000" + str(i)
         string = "SN-2023-11-22-13-27-36-00000" + file + ".csv"
         file_to_open = data_folder / string
@@ -97,10 +97,14 @@ for i in range (40):
             file = "000" + str(i)
             string = "SN-2023-11-22-13-27-36-00000" + file + ".csv"
             file_to_open = data_folder / string
-            file_to_save = data_folder / "biuld.txt"
+
+            print (file_to_open)
             parser_func(file_to_open)
+            print(y_list)
             save_data_func(1)
 
+    elif (i > 9) and (i < 40):
+        print("hi")
 
 #    elif: ((i > 0) && (i < 9)):
 
