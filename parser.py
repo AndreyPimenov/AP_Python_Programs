@@ -13,8 +13,9 @@ data_folder = Path("C:/Users/andrey.pimenov/Desktop/Exp/1")
 # 4 5 6 - the relevant for Zirconium,
 # 7 - additional for Titanium
 
-x_list = []
-y_list = []
+x_list = [str()] * 2048
+y_list = [str()] * 2048
+data_t = [str()] * 2048
 
 def parser_func(file_to_open):
     with open(file_to_open, 'r') as f:
@@ -28,11 +29,13 @@ def parser_func(file_to_open):
             # тут разделение на x и y:
             x = float(line[0:boarder])
             y = float(line[(boarder+1):])
-            x_list.append(x)
-            y_list.append(y)
+            x_list[i] = x
+            y_list[i] = y
+            #x_list.append(x)
+            #y_list.append(y)
 
 def save_data_func(both_list_flag): # if 0 = init, if 1 = add
-    data_t = [str()] * 2048
+
     with open(file_to_save, 'r+') as f:
         if both_list_flag == 0:
             for i in range(len(x_list)):
@@ -49,7 +52,7 @@ def save_data_func(both_list_flag): # if 0 = init, if 1 = add
                 # print(output)
 
                 data_t[i] = output
-                #print(data_t[i])
+                print(data_t[i])
                 data_t.append(output)
 
     with open(file_to_save, 'r+') as f:
@@ -60,9 +63,7 @@ def save_data_func(both_list_flag): # if 0 = init, if 1 = add
 # 1 - Берем один файл и записываем X
 # 2 - Потом в потоке берем в цикле каждый файл
 # 3 -
-
 # Парсим каждый фвйл и сохраняем X и Y для 1-го графика, а потом от каждого файла берем Y
-#
 
 # Шаг 1 - выбераем файл:
 file = "0000"
@@ -82,6 +83,7 @@ file_to_save = data_folder / "biuld.txt"
 
 #Прогоняем по всем файлам из папки:
 for i in range (40):
+
     if i <= 9:
         file = "000" + str(i)
         string = "SN-2023-11-22-13-27-36-00000" + file + ".csv"
@@ -93,14 +95,15 @@ for i in range (40):
             print ("Сделал X")
             save_data_func(1)
             print ("Cделал Y")
-        else:
+        else: # 1 - 9:
             file = "000" + str(i)
             string = "SN-2023-11-22-13-27-36-00000" + file + ".csv"
             file_to_open = data_folder / string
 
             print (file_to_open)
             parser_func(file_to_open)
-            print(y_list)
+            #save_data_func(0)
+            #print(y_list)
             save_data_func(1)
 
     elif (i > 9) and (i < 40):
@@ -109,3 +112,5 @@ for i in range (40):
 #    elif: ((i > 0) && (i < 9)):
 
  #   file = str()
+
+# поработай через np
