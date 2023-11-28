@@ -17,8 +17,7 @@ data_folder = Path("C:/Users/andrey.pimenov/Desktop/Exp/1")
 file = "0000"
 string = "SN-2023-11-22-13-27-36-00000" + file + ".csv"
 file_to_open = data_folder / string
-#f = open(file_to_open)
-#print(f.read())
+file_to_save = data_folder / "biuld.txt"
 
 x_list = []
 y_list = []
@@ -37,8 +36,38 @@ def parser_func():
             y = float(line[(boarder+1):])
             x_list.append(x)
             y_list.append(y)
-    #print(x_list, y_list, len(x_list), len(y_list))
+   
+def save_data_func(both_list_flag): # if 0 = init, if 1 = add
+    with open(file_to_save, 'r+') as f:
+        if both_list_flag == 0:
+            for i in range(len(x_list)):
+                x = x_list[i]
+                f.write(str(x))
+                f.write('\n')
+        elif both_list_flag == 1:
+            for i in range(len(y_list)):
+                y = y_list[i]
+                line = f.readline()
+                print (line)
+                #index = f.tell()
+                #print(index)
+                print(line)
+                #f.seek(index)
+                #output = line.replace('\n', '') + str(y) + '\n'
+                output = line.replace('\n', (" " + str(y) + '\n'))
+                print (output)
+                #str.replace(old, new[, count])
+
+                #index = f.tell()
+                #print(index)
+                #print(line)
+                #f.seek(index)
+                f.write(output)
 
 parser_func()
-print(x_list)
+
+save_data_func(0)
+#print(x_list)
 print(y_list)
+save_data_func(1)
+
