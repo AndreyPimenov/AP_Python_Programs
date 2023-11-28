@@ -16,7 +16,6 @@ data_folder = Path("C:/Users/andrey.pimenov/Desktop/Exp/1")
 x_list = []
 y_list = []
 
-
 def parser_func(file_to_open):
     with open(file_to_open, 'r') as f:
         for i in range(9): # тут пропускаем мета-данные
@@ -72,13 +71,37 @@ file_to_open = data_folder / string
 file_to_save = data_folder / "biuld.txt"
 
 # Шаг 2 - парсим файл file = "0000":
-parser_func(file_to_open)
+#parser_func(file_to_open)
 
 # Шаг 3 - сохраняем этот файл с X и с Y:
-save_data_func(0)
+#save_data_func(0)
+#print ("Сделал X")
 
-print ("Сделал X")
+#save_data_func(1)
+#print ("Cделал Y")
 
-save_data_func(1)
+#Прогоняем по всем файлам из папки:
+for i in range (40):
+    if i < 9:
+        file = "000" + str(i)
+        string = "SN-2023-11-22-13-27-36-00000" + file + ".csv"
+        file_to_open = data_folder / string
+        file_to_save = data_folder / "biuld.txt"
+        if i == 0:
+            parser_func(file_to_open)
+            save_data_func(0)
+            print ("Сделал X")
+            save_data_func(1)
+            print ("Cделал Y")
+        else:
+            file = "000" + str(i)
+            string = "SN-2023-11-22-13-27-36-00000" + file + ".csv"
+            file_to_open = data_folder / string
+            file_to_save = data_folder / "biuld.txt"
+            parser_func(file_to_open)
+            save_data_func(1)
 
-print ("Cделал Y")
+
+#    elif: ((i > 0) && (i < 9)):
+
+ #   file = str()
