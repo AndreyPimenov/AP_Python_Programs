@@ -8,7 +8,7 @@ import numpy as np
 import pandas as pd
 from pathlib import Path
 
-data_folder = Path("C:/Users/andrey.pimenov/Desktop/Exp/1")
+data_folder = Path("/home/andrey/Desktop/Exp/Exp/5 - workone/")  #("C:/Users/andrey.pimenov/Desktop/Exp/1")
 # {1, 2, 3} - для тестирования
 # 4 5 6 - the relevant for Zirconium,
 # 7 - additional for Titanium
@@ -59,59 +59,26 @@ def save_data_func(both_list_flag): # if 0 = init, if 1 = add
         for i in range(len(x_list)):
             f.write(data_t[i])
 
-# Перестроить логику работы программы:
-# 1 - Берем один файл и записываем X
-# 2 - Потом в потоке берем в цикле каждый файл
-# 3 -
-# Парсим каждый фвйл и сохраняем X и Y для 1-го графика, а потом от каждого файла берем Y
+
 
 # Шаг 1 - выбераем файл:
-file = "0000"
-string = "SN-2023-11-22-13-27-36-00000" + file + ".csv"
+file = 1 # 1 - 332
+string = "Exp_5_" + str(file) + ".csv"
 file_to_open = data_folder / string
 file_to_save = data_folder / "biuld.txt"
 
-# Шаг 2 - парсим файл file = "0000":
-#parser_func(file_to_open)
+for file in range(332):
+    string = "Exp_5_" + str(file) + ".csv"
+    file_to_open = data_folder / string
+    file_to_save = data_folder / "biuld.txt"
 
-# Шаг 3 - сохраняем этот файл с X и с Y:
-#save_data_func(0)
-#print ("Сделал X")
-
-#save_data_func(1)
-#print ("Cделал Y")
-
-#Прогоняем по всем файлам из папки:
-for i in range (40):
-
-    if i <= 9:
-        file = "000" + str(i)
-        string = "SN-2023-11-22-13-27-36-00000" + file + ".csv"
-        file_to_open = data_folder / string
-        file_to_save = data_folder / "biuld.txt"
-        if i == 0:
-            parser_func(file_to_open)
-            save_data_func(0)
-            print ("Сделал X")
-            save_data_func(1)
-            print ("Cделал Y")
-        else: # 1 - 9:
-            file = "000" + str(i)
-            string = "SN-2023-11-22-13-27-36-00000" + file + ".csv"
-            file_to_open = data_folder / string
-
-            print (file_to_open)
-            parser_func(file_to_open)
-            save_data_func(1)
-
-    elif (i > 9) and (i < 40):
-        file = "00" + str(i)
-        string = "SN-2023-11-22-13-27-36-00000" + file + ".csv"
-        file_to_open = data_folder / string
-
-        print(file_to_open)
+    if file == 1:
+        parser_func(file_to_open)
+        save_data_func(0)
+        print ("Сделал X")
+        save_data_func(1)
+        print ("Cделал Y")
+    elif (file > 1):
+        print (file_to_open)
         parser_func(file_to_open)
         save_data_func(1)
-
-#   elif: ((i > 0) && (i < 9)):
-#   file = str()
